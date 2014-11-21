@@ -1,0 +1,1 @@
+<? $this->tpl('clearTpl', $d) ?>
