@@ -1,8 +1,7 @@
-#ngn-env. Среда фреймворка Ngn#
+#Фреймфорк Ngn и дополнительные пакеты входящие в состав Ngn-env#
 
 ##[Ngn - fullstack client-server web-фреймворк](/doc/ngn)##
 ##[Ngn. Client-Side](/doc/clientSide)##
-##[tmux php wrapper](/doc/tmux)##
 
 В его состав входят некоторые вспомогательные утилиты и библиотеки. Они будут описаны отдельно:
 
@@ -50,3 +49,7 @@
 {console sman}
 ####Установщик Ngn-Env Server Manager Pack для голой ubuntu/debian####
 {console sman pure manager}
+#####Установка программных пакетов Linux#####
+{console sman instance local}
+#####Установка программных пакетов Ngn-env#####
+{console sman env local}
