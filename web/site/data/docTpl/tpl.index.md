@@ -1,6 +1,8 @@
 #Фреймфорк Ngn и дополнительные пакеты входящие в состав Ngn-env#
 
-##[Ngn - fullstack client-server web-фреймворк](/doc/ngn)##
+Ngn. The fullstack client-server web-framework
+
+##[Ngn. Server-Side](/doc/ngn)##
 ##[Ngn. Client-Side](/doc/clientSide)##
 
 В его состав входят некоторые вспомогательные утилиты и библиотеки. Они будут описаны отдельно:

@@ -3,6 +3,8 @@
 > Библиотека __CliAccess__ позволяет превратить php-класс или набор классов в CLI-программу
 > с отображением подсказок из doc-блоков.
 
+##Точка Cli-вызова##
+
 ^CLI — Command Line Interface
 
 ##Введение##
@@ -164,7 +166,24 @@ __CliAccess__ даёт возможность избежать этого шаг
 {console |doc opt printVariant sunday is 1| run "new CliAccessOptions('opt printVariant sunday is 1', 'doc')" doc}
 
 ###Вызов одного экшена у наскольких экземпляров одного класса###
-Предыдущий пример можно превратить в мульти-вызов, используя обёртку `CliAccessOptionsMultiWrapper`
+Предыдущий пример можно превратить в мульти-вызов, наследуюя класс `CliAccessOptionsMultiWrapper` и реализуя его метод
+ `records()`.
+ 
+####Логика работы:####
+
+- Допустим у Вас уже есть класс на основе `ArrayAccessebleOptions` с реализацией нужных экшенов.
+ Пусть это будет класс `DocOpt` из предыдущего примера 
+- Для вызова одного экшена у различных экземпляров класса `DocOpt`, нужно реализовать мульти-обёртку - класс,
+ наследуемый от `CliAccessOptionsMultiWrapper`. Его имя должно иметь следующий формат: `SingleAction{s}`. В нашем случае,
+ это будет `DocOpts`
+- В классе нужно реализовать один метод `records`, который должен возвращать массив с обязательными
+ для `DocOpt` опциями, .т.е. единственная опция `name` (`static $requiredOptions = ['name'];`).
+ 
+ ~~~CliAccessOptions
+ 
+ 
+Рассмотрим на примере:
+ 
 {class DocOpts}
 
 {console |doc opts printVariant sunday is 1| run "new CliAccessOptions('opts printVariant sunday is 1', 'doc')" doc}
