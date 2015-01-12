@@ -27,7 +27,6 @@ fullstack-фреймворка, где существуют компоненты
 В следующем примере происходит добавление всего одного класса `Ngn.Dialog`. Посмотрите какие необходимые библиотеки подключаются в результате:
 {console run "Sflm::$output = true; Sflm::$uploadPath = '/home/user/ngn-env/temp'; Sflm::setFrontendName('a'); Sflm::clearCache(); Sflm::frontend('js')->addClass('Ngn.Dialog'); Sflm::frontend('js')->store();" doc/init.php}
 
-
 ##Архитектура##
 Sflm работает в контексте _sflm-фронтенда_. sflm-фронтенд - это своеобразное хранилище объектов,
 которое инкрементально пополняется каждый раз, когда происходит добавление нового объекта.
