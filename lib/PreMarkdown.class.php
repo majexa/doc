@@ -19,7 +19,8 @@ class PreMarkdown {
       if (preg_match('/\|(.*)\|(.*)/', $m[1], $m2)) {
         $text = $m2[1];
         $cmd = $m2[2];
-      } else {
+      }
+      else {
         $text = $m[1];
         $cmd = $m[1];
       }
@@ -32,7 +33,8 @@ class PreMarkdown {
         $c = file_get_contents($path);
         $c = str_replace("<?php\n\n", '', $c);
         return self::pre($c);
-      } else {
+      }
+      else {
         return '<p style="color#f00">Class "'.$m[1].'" does not exists</p>';
       }
     }, $text);
@@ -48,6 +50,18 @@ class PreMarkdown {
       $c = str_replace("<?php\n\n", '', $c);
       $c = self::pre($c);
       return $c;
+    }, $text);
+    // daily-ngn-cst
+    $text = preg_replace_callback('/{daily-ngn-cst (.*)}/', function ($m) {
+      $path = '/m/daily-ngn-cst/'.$m[1];
+      $folder = DOC_PATH.'/web/m/daily-ngn-cst/'.$m[1];
+      if (!file_exists($folder)) return "folder '$folder' does not exists";
+      $s = '';
+      $r = glob($folder.'/*');
+      foreach ($r as $file) {
+        $s .= '<img src="'.$path.'/'.basename($file).'" style="width:100px">';
+      }
+      return $s;
     }, $text);
     return $text;
   }

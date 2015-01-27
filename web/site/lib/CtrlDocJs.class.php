@@ -10,4 +10,12 @@ class CtrlDocJs extends CtrlCommon {
     ]));
   }
 
+  function action_json_formAjaxSubmit() {
+    $this->json['success'] = true;
+  }
+
+  function action_json_formUpload() {
+    $_SESSION['files'] = $this->req->files;
+  }
+
 }

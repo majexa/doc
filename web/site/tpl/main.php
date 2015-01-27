@@ -33,7 +33,9 @@
       if (level) {
         toc += (new Array(level + 1)).join("</ul>");
       }
-      toc = '<a href="/" class="toHome">На главную</a>' + toc;
+      if (window.location.pathname != '/') {
+        toc = '<a href="/" class="toHome">На главную</a>' + toc;
+      }
       document.getElementById("toc").innerHTML += toc;
     };
   </script>
