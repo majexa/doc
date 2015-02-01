@@ -63,6 +63,10 @@ class PreMarkdown {
       }
       return $s;
     }, $text);
+    // tag
+    $text = preg_replace_callback('/{tag (.*)}/', function ($m) {
+      return '';
+    }, $text);
     return $text;
   }
 

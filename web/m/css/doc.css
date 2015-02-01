@@ -200,3 +200,7 @@ float: right;
 margin-right: 20px;
 margin-top: 10px;
 }
+
+.contents.tags a {
+display: block;
+}

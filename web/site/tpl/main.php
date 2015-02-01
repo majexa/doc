@@ -47,7 +47,7 @@
 </head>
 <body>
 <div id="toc"></div>
-<div id="contents">
+<div id="contents<?= $d['contentsClass']?>">
   <?= $d['html'] ?>
 </div>
 </body>
