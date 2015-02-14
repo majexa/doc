@@ -7,15 +7,9 @@ Ngn. The fullstack client-server web-framework
 
 В его состав входят некоторые вспомогательные утилиты и библиотеки. Они будут описаны отдельно:
 
-##Библиотеки##
-
-###[CliAccess. Библиотека для лёгкого создания CLI-приложений](/doc/cliAccess)###
-###[SFLM. Библиотека для автозагрузки JS/CSS файлов](/doc/sflm)###
-
 ##Утилиты Ngn-env##
+###[run](/doc/run), [ci](/doc/ci), [pm](/doc/pm), [tst](/doc/tst), [sman](/doc/sman)###
 
-###[run](/doc/run)###
-###[ci](/doc/ci)###
-###[pm](/doc/pm)###
-###[tst](/doc/tst)###
-###[sman](/doc/sman)###
+##Библиотеки##
+###[CliAccess](/doc/cliAccess), [SFLM](/doc/sflm)###
+

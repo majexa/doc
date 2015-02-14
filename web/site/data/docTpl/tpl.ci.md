@@ -26,5 +26,7 @@
 
 В 14:00
 
+{tpl ciCaptures}
+
 <img src="/m/img/deploy-concept-ci1.png" />
 <img src="/m/img/deploy-concept-ci2.png" />

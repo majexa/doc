@@ -40,6 +40,7 @@ class PreMarkdown {
     }, $text);
     // clientSide
     $text = preg_replace_callback('/{clientSide (.*)}/', function ($m) {
+      return '';
       return //
         self::pre(file_get_contents(PROJECT_PATH.'/tpl/js/'.$m[1].'.php')). //
         '<iframe src="/clientSide/'.$m[1].'" style="height:220px;border:0px;"></iframe>';
@@ -66,6 +67,13 @@ class PreMarkdown {
     // tag
     $text = preg_replace_callback('/{tag (.*)}/', function ($m) {
       return '';
+    }, $text);
+    $text = preg_replace_callback('/{tpl (.*)}/', function ($m) {
+      ob_start();
+      require DOC_PATH.'/web/site/tpl/'.$m[1].'.php';
+      $c = ob_get_contents();
+      ob_end_clean();
+      return $c;
     }, $text);
     return $text;
   }
