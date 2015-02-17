@@ -1,0 +1,3 @@
+<?php
+
+CliAccess::$disableDescription = true;

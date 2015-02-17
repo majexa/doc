@@ -71,7 +71,7 @@ class DocCore {
   }
 
   static protected function getSectionTitle($k) {
-    $toc = sfYaml::load(file_get_contents(DOC_PATH.'/toc.yaml'));
+    $toc = sfYaml::load(file_get_contents(SITE_PATH.'/toc.yaml'));
     return $toc[$k];
   }
 

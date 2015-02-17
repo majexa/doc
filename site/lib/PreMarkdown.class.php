@@ -55,7 +55,7 @@ class PreMarkdown {
     // daily-ngn-cst
     $text = preg_replace_callback('/{daily-ngn-cst (.*)}/', function ($m) {
       $path = '/m/daily-ngn-cst/'.$m[1];
-      $folder = DOC_PATH.'/web/m/daily-ngn-cst/'.$m[1];
+      $folder = WEBROOT_PATH.'/m/daily-ngn-cst/'.$m[1];
       if (!file_exists($folder)) return "folder '$folder' does not exists";
       $s = '';
       $r = glob($folder.'/*');
@@ -71,7 +71,7 @@ class PreMarkdown {
     // tpl
     $text = preg_replace_callback('/{tpl (.*)}/', function ($m) {
       ob_start();
-      require DOC_PATH.'/web/site/tpl/'.$m[1].'.php';
+      require SITE_PATH.'/tpl/'.$m[1].'.php';
       $c = ob_get_contents();
       ob_end_clean();
       return $c;
