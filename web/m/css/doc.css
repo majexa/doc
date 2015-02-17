@@ -23,7 +23,6 @@ font-size: 19px;
 color: #f92672;
 }
 h4 {
-
 margin-bottom: 10px;
 font-size: 17px;
 color: #666;
@@ -147,6 +146,9 @@ color: #f92672;
 #toc ul ul ul ul a {
 color: #777;
 }
+#toc ul ul ul ul ul a {
+color: #B3AC83;
+}
 #toc ul ul ul ul li {
 margin-bottom: 5px;
 }
@@ -163,10 +165,14 @@ margin-top: 10px;
 max-width: 600px;
 padding: 1px 20px;
 }
-table td {
+table td, table th {
 border-bottom: 1px solid #ccc;
 font-size: 12px;
 padding: 2px 5px;
+}
+table th {
+font-size: 10px;
+padding: 10px 0;
 }
 .console {
 border-radius: 3px;
@@ -192,15 +198,12 @@ color: #fff;
 .console .help .cmd {
 color: #56BBED;
 }
-
-
 .toHome {
 font-size: 12px;
 float: right;
 margin-right: 20px;
 margin-top: 10px;
 }
-
 .contents.tags a {
 display: block;
 }

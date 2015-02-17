@@ -68,6 +68,7 @@ class PreMarkdown {
     $text = preg_replace_callback('/{tag (.*)}/', function ($m) {
       return '';
     }, $text);
+    // tpl
     $text = preg_replace_callback('/{tpl (.*)}/', function ($m) {
       ob_start();
       require DOC_PATH.'/web/site/tpl/'.$m[1].'.php';
