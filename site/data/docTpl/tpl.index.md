@@ -14,11 +14,7 @@ Ngn. The fullstack client-server web-framework
 ##[Ngn. Server-Side](/doc/ngn)##
 ##[Ngn. Client-Side](/doc/clientSide)##
 
-В его состав входят некоторые вспомогательные утилиты и библиотеки. Они будут описаны отдельно:
-
 ##Утилиты Ngn-env##
+Ngn - это не только серверный фреймворк, а на бор компонентов для разработки, администрирования и тестирования проектов.
+В его состав входит набор утилит, помогающих облегчить эти операции:
 ###[run](/doc/run), [ci](/doc/ci), [pm](/doc/pm), [tst](/doc/tst), [sman](/doc/sman)###
-
-##Библиотеки##
-###[CliAccess](/doc/cliAccess), [SFLM](/doc/sflm)###
-
