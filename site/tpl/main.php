@@ -4,9 +4,8 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta content="NGN" name="generator"/>
   <title><?= $d['pageHeadTitle'] ?></title>
-  {sflm}
   <link rel="stylesheet" href="/m/css/doc.css">
-<!--  <script>
+  <script>
     window.onload = function() {
       var toc = "";
       var level = 0;
@@ -41,7 +40,7 @@
       document.getElementById("toc").innerHTML += toc;
     };
   </script>
--->  <link rel="stylesheet" href="/m/css/sublime.css">
+  <link rel="stylesheet" href="/m/css/sublime.css">
   <script src="/m/js/highlight.min.js"></script>
   <script>
     hljs.initHighlightingOnLoad();
