@@ -71,7 +71,7 @@ class PreMarkdown {
     // tpl
     $text = preg_replace_callback('/{tpl (.*)}/', function ($m) {
       ob_start();
-      require SITE_PATH.'/tpl/'.$m[1].'.php';
+      require PROJECT_PATH.'/tpl/'.$m[1].'.php';
       $c = ob_get_contents();
       ob_end_clean();
       return $c;
