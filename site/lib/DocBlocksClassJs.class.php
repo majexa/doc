@@ -51,7 +51,7 @@ class DocBlocksClassJs extends ArrayAccesseble {
         } else {
           $descr = null;
         }
-        preg_match('/(.*):(.*)/', $option, $m);
+        if (!preg_match('/(.*):(.*)/', $option, $m)) continue;
         $r[] = [
           'name' => $m[1],
           'value' => trim(trim($m[2]), ','),
