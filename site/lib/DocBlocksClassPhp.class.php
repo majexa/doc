@@ -1,6 +1,6 @@
 <?php
 
-class DocBlocksClass extends ArrayAccesseble {
+class DocBlocksClassPhp extends ArrayAccesseble {
 
   function __construct($class) {
     $r = [];

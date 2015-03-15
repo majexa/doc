@@ -69,7 +69,7 @@ DdParamFilterCtrl и реализуйте его абстрактный мето
     class CtrlThreeDefault {
       use DdParamFilterCtrl;
 
-      protected function paramFilterItems() {
+      protected function _paramFilterItems() {
         return $this->items();
       }
       protected function items() {

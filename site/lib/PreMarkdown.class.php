@@ -4,15 +4,24 @@ class PreMarkdown {
 
   static function process($file) {
     $text = file_get_contents($file);
-    // api
-    $text = preg_replace_callback('/( *){api (.*)}/', function ($m) {
-      $api = new DocBlocksClass($m[2]);
-      $s = "";
+    // apiPhp
+    $text = preg_replace_callback('/( *){apiPhp (.*)}/', function ($m) {
+      $api = new DocBlocksClassPhp($m[2]);
+      $s = '';
       foreach ($api as $v) {
         $v['api'] = preg_replace('/^([a-zA-Z_]+)\(/', '[b]$1[/b](', $v['api']);
         $s .= $m[1].'- `'.$v['class'].'::'.$v['api'].';`<br>'.$v['title']."\n";
       }
       return '<div class="api" markdown="1"><div class="help">@api</div>'.$s.'</div>';
+    }, $text);
+    // apiJs
+    $text = preg_replace_callback('/( *){apiJs (.*)}/', function ($m) {
+      $api = new DocBlocksClassJs($m[2]);
+      $s = '##'.$api['name'].'##'."\n\n";
+      $s .= $api['descr']."\n\n";
+      if ($api['arguments']) $s .= PreMarkdown::jsRenderArguments($api['arguments']);
+      if ($api['options']) $s .= PreMarkdown::jsRenderOptions($api['options']);
+      return $s;
     }, $text);
     // console
     $text = preg_replace_callback('/{console (.*)}/', function ($m) {
@@ -85,6 +94,52 @@ class PreMarkdown {
       $arr[$key] = '    '.$arr[$key];
     }
     return "\n".implode("\n", $arr)."\n";
+  }
+
+  static function jsRenderArguments(array $r) {
+    return self::jsRenderParams($r, 'Аргументы');
+  }
+
+  static function jsRenderOptions(array $r) {
+    return self::jsRenderParams($r, 'Опции');
+  }
+
+  protected static function jsRenderParams(array $r, $title) {
+    $s = "####$title####\n\n";
+    foreach ($r as $v) {
+      $v['type'] = self::jsRenderType($v['type']);
+      $s .= ' - '.$v['name'].($v['type'] ? ' <span class="gray">('.$v['type'].')</span>' : '').($v['descr'] ? ' — '.$v['descr'] : '')."\n";
+    }
+    $s .= "\n";
+    return $s;
+  }
+
+  static $mootoolsClasses = [
+    'Class',
+    'Element',
+    'Array',
+    'Function',
+    'Number',
+    'String',
+  ];
+
+  static $mootoolsClassParents = [
+    'Array' => 'Types',
+    'Function' => 'Types',
+    'String' => 'Types',
+  ];
+
+  static protected function jsRenderType($type) {
+    $r = [];
+    foreach (explode('|', $type) as $t) {
+      if (strstr($t, '.')) $tt = explode('.', $t);
+      else $tt = [isset(self::$mootoolsClassParents[$t]) ? self::$mootoolsClassParents[$t] : $t, $t];
+      if (in_array($t, self::$mootoolsClasses)) {
+        $t = '<a href="http://mootools.net/core/docs/1.5.1/'.implode('/', $tt).'" target="_blank">'.$t.'</a>';
+      }
+      $r[] = $t;
+    }
+    return implode('|', $r);
   }
 
 }

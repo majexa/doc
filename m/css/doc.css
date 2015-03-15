@@ -207,3 +207,13 @@ margin-top: 10px;
 .contents.tags a {
 display: block;
 }
+
+.gray {
+color: #999;
+}
+.gray a {
+color: #999;
+}
+.gray a:hover {
+color: #000;
+}
