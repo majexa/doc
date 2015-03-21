@@ -9,8 +9,20 @@ class CtrlDocDefault extends CtrlCommon {
   protected $defaultAction = 'doc';
 
   function action_doc() {
-    $file = DATA_PATH.'/docTpl/tpl.'.(empty($this->req->params[1]) ? 'index' : $this->req->params[1]).'.md';
-    $this->d['html'] = DocCore::markdown($file);
+    if (empty($this->req->params[1])) {
+      $p = DATA_PATH.'/docTpl/index';
+    } else {
+      $p = implode('/', array_slice($this->req->params, 1, count($this->req->params)));
+      $p = DATA_PATH.'/docTpl/'.$p;
+    }
+    if (file_exists($p.'.md')) {
+      $this->d['html'] = DocCore::markdown($p.'.md');
+    }
+    elseif (file_exists($p.'.php')) {
+      $this->d['html'] = Misc::getIncluded($p.'.php');
+    } else {
+      throw new Exception("path $p not found");
+    }
   }
 
   function action_cpanel() {

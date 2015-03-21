@@ -2,7 +2,7 @@
 
 class DocBlocksClassPhp extends ArrayAccesseble {
 
-  function __construct($class) {
+  function __construct($class, $onlyApiDocs = true) {
     $r = [];
     $methods = [];
     foreach (ClassCore::getAncestors($class) as $_class) {
@@ -14,7 +14,7 @@ class DocBlocksClassPhp extends ArrayAccesseble {
           $params[] = $p->isOptional() ? '[$'.$p->name.']' : '$'.$p->name;
         };
         if (!$comment) continue;
-        if (!strstr($comment, '@api')) continue;
+        if ($onlyApiDocs and !strstr($comment, '@api')) continue;
         $methodName = $method->getName();
         if (preg_match('/@api (.*)\n/', $comment, $m)) {
           $comment = preg_replace('/@api (.*)\n/', '', $comment);
