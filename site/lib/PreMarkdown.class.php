@@ -6,7 +6,7 @@ class PreMarkdown {
     $text = file_get_contents($file);
     // apiPhp
     $text = preg_replace_callback('/( *){apiPhp (.*)}/', function ($m) {
-      $api = new DocBlocksClassPhp($m[2]);
+      $api = new DocMethodsPhp($m[2]);
       $s = '';
       foreach ($api as $v) {
         $v['api'] = preg_replace('/^([a-zA-Z_]+)\(/', '[b]$1[/b](', $v['api']);
@@ -85,6 +85,16 @@ class PreMarkdown {
       ob_end_clean();
       return $c;
     }, $text);
+    // phpCode
+    $text = preg_replace_callback('/{{phpCode (.*)}}/sm', function ($m) {
+      $c = self::pre($m[1]);
+      ob_start();
+      eval($m[1]);
+      $r = ob_get_clean();
+      if ($r) $c .= "\n$r";
+      return self::pre($c);
+    }, $text);
+
     return $text;
   }
 

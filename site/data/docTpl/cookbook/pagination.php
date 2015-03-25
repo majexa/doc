@@ -86,13 +86,13 @@ function print_rr(array $d) {
  * - сигнатура
  * - описание
  * - аргументы, опции
- * - возвращает
+ * - возвращаемое значение
  * - примеры
  * - заметки
  */
 
 
-die2(new DocBlocksClassPhp('St', false));
+die2(new DocMethodsPhp('St', false));
 ?>
 <pre>
   <code class="php">
