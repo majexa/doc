@@ -16,12 +16,19 @@ class DocMethodsPhp extends ArrayAccesseble {
         if (!$comment) continue;
         if ($onlyApiDocs and !strstr($comment, '@api')) continue;
         $methodName = $method->getName();
+        if (preg_match('/@api (.*)\n/', $comment, $m)) {
+          $comment = preg_replace('/@api (.*)\n/', '', $comment);
+          $api = $m[1];
+        } else {
+          $api = $methodName.'('.implode(', ', $params).')';
+        }
         if (in_array($methodName, $methods)) continue;
         $methods[] = $methodName;
         $v = [
           'class' => $_class,
           'method' => $methodName,
           'title' => ClassCore::getDocComment($comment),
+          'api' => $api
         ];
         $r[] = $v;
       }
