@@ -1,5 +1,5 @@
 <?php
 
 Lib::addFolder(NGN_ENV_PATH.'/pm/lib');
-define('PROJECT_KEY', 'doc');
+Ngn::addBasePath(__DIR__);
 require PROJECT_PATH.'/lib/hyperlight/hyperlight.php';
