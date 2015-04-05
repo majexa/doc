@@ -4,6 +4,7 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta content="NGN" name="generator"/>
   <title><?= $d['pageHeadTitle'] ?></title>
+  <link rel="stylesheet" href="/i/css/common.css">
   <link rel="stylesheet" href="/m/css/doc.css">
   <script>
     window.onload = function() {

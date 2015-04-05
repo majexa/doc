@@ -33,8 +33,17 @@ class PreMarkdown {
         $text = $m[1];
         $cmd = $m[1];
       }
-      $cmd = str_replace('$', '\\$', $cmd);
-      return '<div class="console"><div class="help">> <span class="cmd">'.$text.'</span></div>'.Ansi2Html::convert(`$cmd`).'</div>';
+      //$cmd = str_replace('$', '\\$', $cmd);
+      $cmd = preg_replace('/^run /', 'php '.NGN_ENV_PATH.'/run/run.php ', $cmd);
+      $cmdOutput = Ansi2Html::convert(`$cmd`);
+      return <<<HTML
+<div class="console">
+  <div class="help">
+    > <span class="cmd">$text</span>
+  </div>
+  $cmdOutput
+</div>
+HTML;
     }, $text);
     // class
     $text = preg_replace_callback('/{class (.*)}/', function ($m) {

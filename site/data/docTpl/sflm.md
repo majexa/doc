@@ -35,10 +35,10 @@ regexp: [A-Z]*.js
 Посмотрите на лог вызовов библиотеки, что бы примерно понять как работает автозагрузчик.
 
 Первый пример - пустой вызов. Подключаются базовые библиотеки.
-{console run "Sflm::$output = true; Sflm::$uploadPath = '/home/user/ngn-env/temp'; Sflm::setFrontendName('a'); Sflm::clearCache(); Sflm::frontend('js')->store();" doc/init.php}
+{console run "Sflm::$output = true; Sflm::$uploadPath = '/home/user/ngn-env/temp'; Sflm::setFrontendName('a'); Sflm::clearCache(); Sflm::frontend('js')->store();"}
 
 В следующем примере происходит добавление всего одного класса `Ngn.Dialog`. Посмотрите какие необходимые библиотеки подключаются в результате:
-{console run "Sflm::$output = true; Sflm::$uploadPath = '/home/user/ngn-env/temp'; Sflm::setFrontendName('a'); Sflm::clearCache(); Sflm::frontend('js')->addClass('Ngn.Dialog'); Sflm::frontend('js')->store();" doc/init.php}
+{console run "Sflm::$output = true; Sflm::$uploadPath = '/home/user/ngn-env/temp'; Sflm::setFrontendName('a'); Sflm::clearCache(); Sflm::frontend('js')->addClass('Ngn.Dialog'); Sflm::frontend('js')->store();"}
 
 ##Архитектура##
 Sflm работает в контексте _sflm-фронтенда_. sflm-фронтенд - это своеобразное хранилище объектов,
