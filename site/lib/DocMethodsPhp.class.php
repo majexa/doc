@@ -28,7 +28,8 @@ class DocMethodsPhp extends ArrayAccesseble {
           'class' => $_class,
           'method' => $methodName,
           'title' => ClassCore::getDocComment($comment),
-          'api' => $api
+          'api' => $api,
+          'params' => ClassCore::getDocComment($comment, 'param')
         ];
         $r[] = $v;
       }

@@ -9,10 +9,16 @@ class PreMarkdown {
       $api = new DocMethodsPhp($m[2]);
       $s = '';
       foreach ($api as $v) {
-        $v['api'] = preg_replace('/^([a-zA-Z_]+)\(/', '[b]$1[/b](', $v['api']);
-        $s .= $m[1].'- `'.$v['class'].'::'.$v['api'].';`<br>'.$v['title']."\n";
+        $v['api'] = preg_replace('/^([a-zA-Z_]+)\(/', '__$1__(', $v['api']);
+        $s .= $m[1].'- '.$v['class'].'::'.$v['api'].';'."\n".$v['title']."\n";
+        if (!empty($v['params'])) {
+          foreach ($v['params'] as $param) {
+            $s .= "    - {$param['type']} __{$param['name']}__".($param['descr'] ? " _{$param['descr']}_" : '')."\n";
+          }
+        }
       }
-      return '<div class="api" markdown="1"><div class="help">@api</div>'.$s.'</div>';
+      //return '<div class="api" markdown="1"><div class="help">@api</div>'.$s.'</div>';
+      return $s;
     }, $text);
     // apiJs
     $text = preg_replace_callback('/( *){apiJs (.*)}/', function ($m) {

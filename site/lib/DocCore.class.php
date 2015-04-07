@@ -76,6 +76,7 @@ class DocCore {
   }
 
   static function markdown($file) {
+    file_put_contents(DATA_PATH.'/1.md', PreMarkdown::process($file));
     $html = MarkdownExtra::defaultTransform(PreMarkdown::process($file));
     $html = str_replace('[b]', '<b>', $html);
     $html = str_replace('[/b]', '</b>', $html);
