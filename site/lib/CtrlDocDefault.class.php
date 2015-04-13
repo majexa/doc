@@ -15,8 +15,9 @@ class CtrlDocDefault extends CtrlCommon {
       $p = implode('/', array_slice($this->req->params, 1, count($this->req->params)));
       $p = DATA_PATH.'/docTpl/'.$p;
     }
-    if (file_exists($p.'.md')) {
-      $this->d['html'] = DocCore::markdown($p.'.md');
+    $nmdFile = $p.'.md';
+    if (file_exists($nmdFile)) {
+      $this->d['html'] = (new NgnMarkdown)->html(file_get_contents($nmdFile));
     }
     elseif (file_exists($p.'.php')) {
       $this->d['html'] = Misc::getIncluded($p.'.php');

@@ -1,10 +1,5 @@
 <?php
 
-require __DIR__.'/Michelf/Markdown.inc.php';
-require __DIR__.'/Michelf/MarkdownExtra.inc.php';
-
-use \Michelf\MarkdownExtra;
-
 class DocCore {
 
   static function filesR($folder) {
@@ -76,16 +71,7 @@ class DocCore {
   }
 
   static function markdown($file) {
-    file_put_contents(DATA_PATH.'/1.md', PreMarkdown::process($file));
-    $html = MarkdownExtra::defaultTransform(PreMarkdown::process($file));
-    $html = str_replace('[b]', '<b>', $html);
-    $html = str_replace('[/b]', '</b>', $html);
-    $html = str_replace('<p>^^', '<p class="panel">', $html);
-    $html = str_replace('<p>^', '<p class="important">', $html);
-    $html = preg_replace('/<code>\s*SQL:\s*/s', '<code class="sql">', $html);
-    $html = str_replace('<code>', '<code class="php">', $html);
-    $html = str_replace('<table>', '<table cellspacing=0>', $html);
-    return $html;
+    die2('!');
   }
 
 }

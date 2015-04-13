@@ -6,6 +6,8 @@
   <title><?= $d['pageHeadTitle'] ?></title>
   <link rel="stylesheet" href="/i/css/common.css">
   <link rel="stylesheet" href="/m/css/doc.css">
+  <link rel="stylesheet" href="/m/css/toc.css">
+  <link rel="stylesheet" href="/m/css/api.css">
   <script>
     window.onload = function() {
       var toc = "";
