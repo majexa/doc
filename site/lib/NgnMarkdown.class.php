@@ -85,7 +85,8 @@ class NgnMarkdown {
       $s = '';
       foreach ($api as $v) {
         $v['api'] = preg_replace('/^([a-zA-Z_]+)\(/', '__$1__(', $v['api']);
-        $s .= '- '.$v['class'].'::'.$v['api']."<br><i style='color:#666'>".$v['title']."</i>\n";
+        $v['title'] = str_replace('{this}', '(new '.$v['class'].')->', $v['title']);
+        $s .= '- (new '.$v['class'].')->'.$v['api']."<br><i style='color:#666'>".$v['title']."</i>\n";
         if (!empty($v['params'])) {
           foreach ($v['params'] as $param) {
             $s .= "    - {$param['type']} __{$param['name']}__".($param['descr'] ? " — _{$param['descr']}_" : '')."\n";
