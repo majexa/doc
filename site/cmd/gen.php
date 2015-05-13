@@ -4,7 +4,6 @@ function get($path) {
   return (new NgnMarkdown)->markdown(file_get_contents(PROJECT_PATH.'/data/docTpl/'.$path.'.md'));
 }
 
-//print get('ngn');
 file_put_contents(NGN_PATH.'/README.md', get('ngn'));
 file_put_contents(NGN_PATH.'/more/lib/sflm/README.md', get('sflm'));
 print "done.\n";

@@ -39,9 +39,9 @@ class NgnMarkdown {
     $ngnMarkdownExtra = $this->markdownApiJs($ngnMarkdownExtra);
     $ngnMarkdownExtra = $this->markdownConsole($ngnMarkdownExtra);
     $ngnMarkdownExtra = $this->markdownClientSide($ngnMarkdownExtra);
+    $ngnMarkdownExtra = $this->markdownMarkers($ngnMarkdownExtra);
     $markdownExtra = $this->markdownDailyNgnCst($ngnMarkdownExtra);
-    // now its MarkdownExtra
-//die2($markdownExtra);
+    // now its MarkdownExtra (not NgnMarkdownExtra)
     return $markdownExtra;
   }
 
@@ -172,6 +172,12 @@ HTML;
         '<iframe src="/clientSide/'.$m[1].'" style="height:220px;border:0px;"></iframe>';
     }, $ngnMarkdownExtra);
   }
+
+    protected function markdownMarkers($ngnMarkdownExtra) {
+        $ngnMarkdownExtra = preg_replace('/^\^(.*)$/m', '<p class="important" markdown="1">$1</p>', $ngnMarkdownExtra);
+        $ngnMarkdownExtra = preg_replace('/^\^\^(.*)$/m', '<p class="panel" markdown="1">$1</p>', $ngnMarkdownExtra);
+        return $ngnMarkdownExtra;
+    }
 
 
   /**

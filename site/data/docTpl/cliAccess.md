@@ -55,30 +55,30 @@ __CliAccess__ даёт возможность избежать этого шаг
 Создадим следующий класс:
 {class DocCliExample1}
 Его можно вызвать напрямую, через утилиту `run`:
-{console run "(new DocCliExample1)->someCommand(1)" doc}
-А можно через обёртку __CliAccess__. Вызов происходит без параметров. Имя единственного публичного метода не выводится:
-{console run "new CliAccessArgsSingle('', new DocCliExample1)" doc}
+{console run "(new DocCliExample1)->someCommand(1)" projects/doc}
+А можно через обёртку __CliAccess__. Вызов происходит без параметров. Имя единственного публичного метода не выводится, потому что он один:
+{console run "new CliAccessArgsSingle('', new DocCliExample1)" projects/doc}
 
 Создадим файл `/usr/bin/cliExample1`:
 
     #!/bin/sh
     # ngn
-    php ~/ngn-env/run/run.php "new CliAccessArgsSingle('$*', new DocCliExample1)" doc
+    php ~/ngn-env/run/run.php "new CliAccessArgsSingle('$*', new DocCliExample1)" projects/doc
 
 Теперь использование нашего примера стало короче:
-{console |docCliExample1| run "new CliAccessArgsSingle('', new DocCliExample1)" doc}
+{console |docCliExample1| run "new CliAccessArgsSingle('', new DocCliExample1)" projects/doc}
 Вызов с одним обязательным параметром:
-{console |docCliExample1 1| run "new CliAccessArgsSingle('1', new DocCliExample1)" doc}
+{console |docCliExample1 1| run "new CliAccessArgsSingle('1', new DocCliExample1)" projects/doc}
 Вызов с опциональным параметром:
-{console |docCliExample1 1 1| run "new CliAccessArgsSingle('1 1', new DocCliExample1)" doc}
+{console |docCliExample1 1 1| run "new CliAccessArgsSingle('1 1', new DocCliExample1)" projects/doc}
 
 ###Класс с несколькими методами###
 Добавим ещё один метод.
 {class DocCliExample2}
 Теперь справка слегка видоизменилась:
-{console |docCliExample2| run "new CliAccessArgsSingle('', new DocCliExample2)" doc}
-{console |docCliExample2 one 20 10| run "new CliAccessArgsSingle('one 20 10', new DocCliExample2)" doc}
-{console |docCliExample2 two| run "new CliAccessArgsSingle('two', new DocCliExample2)" doc}
+{console |docCliExample2| run "new CliAccessArgsSingle('', new DocCliExample2)" projects/doc}
+{console |docCliExample2 one 20 10| run "new CliAccessArgsSingle('one 20 10', new DocCliExample2)" projects/doc}
+{console |docCliExample2 two| run "new CliAccessArgsSingle('two', new DocCliExample2)" projects/doc}
 
 ###Класс с несколькими методами и конструктором###
 Теперь в классе появляется конструктор с параметрами.
@@ -88,16 +88,16 @@ __CliAccess__ даёт возможность избежать этого шаг
 
     #!/bin/sh
     # ngn
-    php ~/ngn-env/run/run.php "new CliAccessArgsSingle('$*', 'DocCliExample3')" doc
+    php ~/ngn-env/run/run.php "new CliAccessArgsSingle('$*', 'DocCliExample3')" projects/doc
 
 Вторым параметром запуска команд класса следует `name` — обязательный параметр конструктора:
-{console |docCliExample3| run "new CliAccessArgsSingle('', 'DocCliExample3')" doc}
+{console |docCliExample3| run "new CliAccessArgsSingle('', 'DocCliExample3')" projects/doc}
 
 Вот результат выполнения первой команды:
-{console |docCliExample3 one crub 5| run "new CliAccessArgsSingle('one crub 5', 'DocCliExample3')" doc}
+{console |docCliExample3 one crub 5| run "new CliAccessArgsSingle('one crub 5', 'DocCliExample3')" projects/doc}
 
 ###Несколько классов с одним префиксом###
-Создадим особый вид обёртки. Она сама будем ключать в себя нужный список класов:
+Создадим особый вид обёртки. Она сама будет включать в себя нужный список класов:
 {class DocMultiCli}
 
 Файл запуска теперь будет выглядеть так:
@@ -106,7 +106,7 @@ __CliAccess__ даёт возможность избежать этого шаг
     # ngn
     php ~/ngn-env/run/run.php "new DocMultiCli('$*')" doc
 
-{console |docCli| run "new DocMultiCli('')" doc}
+{console |docCli| run "new DocMultiCli('')" projects/doc}
 ^Обратите внимание. Имя команды (оливковым) генерируется автоматически из префикса (в данном случае).
 Так что скрипт для запуска лучше было бы назвать именно так. Для изменения имени команды в справке
 нужно переопределить метод `CliAccess::_runner()`.
@@ -115,8 +115,8 @@ __CliAccess__ даёт возможность избежать этого шаг
 Используем в здесь классы, созданные в предыдущих примерах.
 Так же переопределим метод `CliAccess::_runner()`, что-бы назвать скрипт запуска так же.
 {class DocMultiStaticCli}
-{console |my-script| run "new DocMultiStaticCli('')" doc}
-{console |my-script bee one 321 456| run "new DocMultiStaticCli('bee one 321 456')" doc}
+{console |my-script| run "new DocMultiStaticCli('')" projects/doc}
+{console |my-script bee one 321 456| run "new DocMultiStaticCli('bee one 321 456')" projects/doc}
 
 ###Класс с динамическим подклассом###
 Бывает удобно расширять функционал существующей CliAccess-обёртки подкомандами.
@@ -127,20 +127,20 @@ __CliAccess__ даёт возможность избежать этого шаг
 
 {class DocDynamicSub}
 Справка без указания второго параметра выглядит так же, как раньше:
-{console |docDynamicSub| run "new CliAccessArgsSingle('', 'DocDynamicSub')" doc}
+{console |docDynamicSub| run "new CliAccessArgsSingle('', 'DocDynamicSub')" projects/doc}
 Введём вторую команду, что бы посмотреть результат.
 
 В первом случае выводятся подкоманды класса `DocCliExample1`
-{console |docDynamicSub withSub one| run "new CliAccessArgsSingle('withSub one', 'DocDynamicSub')" doc}
-{console |docDynamicSub withSub one 6 7| run "new CliAccessArgsSingle('withSub one 6 7', 'DocDynamicSub')" doc}
+{console |docDynamicSub withSub one| run "new CliAccessArgsSingle('withSub one', 'DocDynamicSub')" projects/doc}
+{console |docDynamicSub withSub one 6 7| run "new CliAccessArgsSingle('withSub one 6 7', 'DocDynamicSub')" projects/doc}
 
 Во втором — `DocCliExample3`:
 {class DocCliExample3}
-{console |docDynamicSub withSub abc| run "new CliAccessArgsSingle('withSub abc', 'DocDynamicSub')" doc}
+{console |docDynamicSub withSub abc| run "new CliAccessArgsSingle('withSub abc', 'DocDynamicSub')" projects/doc}
 Вызывается метод `DocCliExample3::one()`:
-{console |docDynamicSub withSub abc one 6 7| run "new CliAccessArgsSingle('withSub abc one 6 7', 'DocDynamicSub')" doc}
+{console |docDynamicSub withSub abc one 6 7| run "new CliAccessArgsSingle('withSub abc one 6 7', 'DocDynamicSub')" projects/doc}
 Вызывается метод `DocCliExample3::two()`:
-{console |docDynamicSub withSub abc two| run "new CliAccessArgsSingle('withSub abc two', 'DocDynamicSub')" doc}
+{console |docDynamicSub withSub abc two| run "new CliAccessArgsSingle('withSub abc two', 'DocDynamicSub')" projects/doc}
 
 ###Класс с опциями###
 Класс с опциями удобно использовать для существубщих классов, где конструктор принимает
@@ -154,16 +154,16 @@ __CliAccess__ даёт возможность избежать этого шаг
 Рассметрим пример класса с опциями:
 {class DocOpt}
 
-Файл обёрки будет выглядеть так:
+Файл запуска будет выглядеть так:
 
     #!/bin/sh
     # ngn
-    php ~/ngn-env/run/run.php "new CliAccessArgsSingle('$*', new DocCliExample1)" doc
+    php ~/ngn-env/run/run.php "new CliAccessArgsSingle('$*', new DocCliExample1)" projects/doc
 
 Подсказки:
-{console |doc| run "new CliAccessOptions('', 'doc')" doc}
+{console |doc| run "new CliAccessOptions('', 'doc')" projects/doc}
 Вызов метода:
-{console |doc opt printVariant sunday is 1| run "new CliAccessOptions('opt printVariant sunday is 1', 'doc')" doc}
+{console |doc opt printVariant sunday is 1| run "new CliAccessOptions('opt printVariant sunday is 1', 'doc')" projects/doc}
 
 ###Вызов одного экшена у наскольких экземпляров одного класса###
 Предыдущий пример можно превратить в мульти-вызов, наследуюя класс `CliAccessOptionsMultiWrapper` и реализуя его метод
@@ -186,4 +186,4 @@ __CliAccess__ даёт возможность избежать этого шаг
  
 {class DocOpts}
 
-{console |doc opts printVariant sunday is 1| run "new CliAccessOptions('opts printVariant sunday is 1', 'doc')" doc}
+{console |doc opts printVariant sunday is 1| run "new CliAccessOptions('opts printVariant sunday is 1', 'doc')" projects/doc}
