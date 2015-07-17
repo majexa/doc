@@ -70,8 +70,4 @@ class DocCore {
     return $toc[$k];
   }
 
-  static function markdown($file) {
-    die2('!');
-  }
-
 }
