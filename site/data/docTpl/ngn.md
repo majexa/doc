@@ -3,15 +3,6 @@
 
 [Красивая версия этой доки](http://doc.majexa.ru/doc/ngn)
 
-##Тестирование##
-##Автозагрузка классов##
-##Базовые сущности: config, hooks, tpl, lib, init##
-
-##[CliAccess](/doc/cliAccess)##
-##[SFLM](/doc/sflm)##
-
-##config vars##
-
 ##Базовые константы##
 Базовая конфигурация проекта должна иметь 3 константы.
 
@@ -829,3 +820,7 @@ __dd-crud для контроллера__ — это функционал поз
 ##Как добавить собственную конфигурацию для проекта##
 
     project/site/config/struct/vars.php
+
+##[CliAccess](/doc/cliAccess)##
+##[SFLM](/doc/sflm)##
+##[Создание документации и формат NgnMarkdown](/doc/ngnMarkdown)##

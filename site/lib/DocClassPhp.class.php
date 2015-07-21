@@ -5,8 +5,15 @@
  */
 class DocClassPhp extends ArrayAccesseble {
 
-  function __construct($class) {
+  protected $class;
 
+  function __construct($class) {
+    $this->class = $class;
+
+  }
+
+  function __toString() {
+    return ClassCore::getDocComment((new ReflectionClass($this->class))->getDocComment());
   }
 
 }

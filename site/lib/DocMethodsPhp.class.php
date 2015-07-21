@@ -2,11 +2,13 @@
 
 class DocMethodsPhp extends ArrayAccesseble {
 
-  function __construct($class, $onlyApiDocs = true) {
+  function __construct($class, $onlyApiDocs = true, $useInheritClasses = true) {
     $r = [];
     $methods = [];
-    foreach (ClassCore::getAncestors($class) as $_class) {
+    $classes = $useInheritClasses ? ClassCore::getAncestors($class) : [$class];
+    foreach ($classes as $_class) {
       foreach ((new ReflectionClass($_class))->getMethods() as $method) {
+        if (!$useInheritClasses and $_class != $method->class) continue;
         $m = (new ReflectionMethod($_class, $method->getName()));
         $comment = $m->getDocComment();
         $params = [];

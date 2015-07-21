@@ -6,47 +6,60 @@ require __DIR__.'/Michelf/MarkdownExtra.inc.php';
 use \Michelf\MarkdownExtra;
 
 /**
- * Markdown:
- *     - asdsad<br>sad
- *     - asd
+ * Класс `NgnMarkdown` отвечает за рендеринг HTML-кода из формата _NgnMarkdown_,
+ * который в свою очередь базируется на расширенном формате Markdown'а — _MarkdownExtra_.
+ * Он предоставляющий некоторые дополнительные возможности, для тюнинга HTML-рендероинга.
+ * Смотрите подробнее на [сайте библиотеки](https://michelf.ca/projects/php-markdown/extra/)
  *
- * MarkdownExtra:
- * ~~~~
- * asdsad<br>sad
- * ~~~~
+ * Формат _NgnMarkdown_ ...
  *
- * NgnMarkdownExtra:
+ * __Markdown__
+ * <pre>
+ * - asdsad&lt;br&gt;sad
+ * - asd
+ * </pre>
+ * __MarkdownExtra__
+ *
+ * <pre>
  * ~~~~
- * asdsad<br>sad
+ * asdsad&lt;br&gt;sad
+ * ~~~~
+ * </pre>
+ *
+ * __NgnMarkdown__
+ * <pre>
+ * ~~~~
+ * asdsad&lt;br&gt;sad
  * ~~~~
  * {apiPhp ClassName}
+ * </pre>
  *
  */
 class NgnMarkdown {
 
   /**
-   * Преобразовывает формат NgnMarkdownExtra в MarkdownExtra
+   * Преобразовывает формат NgnMarkdown в MarkdownExtra
    *
-   * @param string $ngnMarkdownExtra Текст в формате NgnMarkdownExtra
+   * @param string $NgnMarkdown Текст в формате NgnMarkdown
    * @return string Markdown
    */
-  function markdownExtra($ngnMarkdownExtra) {
-    $ngnMarkdownExtra = $this->markdownFile($ngnMarkdownExtra);
-    $ngnMarkdownExtra = $this->markdownTpl($ngnMarkdownExtra);
-    $ngnMarkdownExtra = $this->markdownPhpCode($ngnMarkdownExtra);
-    $ngnMarkdownExtra = $this->markdownClass($ngnMarkdownExtra);
-    $ngnMarkdownExtra = $this->markdownApiPhp($ngnMarkdownExtra);
-    $ngnMarkdownExtra = $this->markdownApiJs($ngnMarkdownExtra);
-    $ngnMarkdownExtra = $this->markdownConsole($ngnMarkdownExtra);
-    $ngnMarkdownExtra = $this->markdownClientSide($ngnMarkdownExtra);
-    $ngnMarkdownExtra = $this->markdownMarkers($ngnMarkdownExtra);
-    $markdownExtra = $this->markdownDailyNgnCst($ngnMarkdownExtra);
-    // now its MarkdownExtra (not NgnMarkdownExtra)
+  function markdownExtra($NgnMarkdown) {
+    $NgnMarkdown = $this->markdownFile($NgnMarkdown);
+    $NgnMarkdown = $this->markdownTpl($NgnMarkdown);
+    $NgnMarkdown = $this->markdownPhpCode($NgnMarkdown);
+    $NgnMarkdown = $this->markdownClass($NgnMarkdown);
+    $NgnMarkdown = $this->markdownApiPhp($NgnMarkdown);
+    $NgnMarkdown = $this->markdownApiJs($NgnMarkdown);
+    $NgnMarkdown = $this->markdownConsole($NgnMarkdown);
+    //$NgnMarkdown = $this->markdownClientSide($NgnMarkdown);
+    $NgnMarkdown = $this->markdownMarkers($NgnMarkdown);
+    $markdownExtra = $this->markdownDailyNgnCst($NgnMarkdown);
+    // now its MarkdownExtra (not NgnMarkdown)
     return $markdownExtra;
   }
 
   /**
-   * Преобразовывает формат NgnMarkdownExtra в Markdown
+   * Преобразовывает формат NgnMarkdown в Markdown
    *
    * @param string $meText MarkdownExtra
    * @return string
@@ -56,13 +69,13 @@ class NgnMarkdown {
   }
 
   /**
-   * Преобразовывает формат NgnMarkdownExtra в HTML
+   * Преобразовывает формат NgnMarkdown в HTML
    *
-   * @param string $ngnMarkdownExtra Текст в формате NgnMarkdownExtra
+   * @param string $NgnMarkdown Текст в формате NgnMarkdown
    * @return mixed HTML
    */
-  function html($ngnMarkdownExtra) {
-    $markdown = $this->markdownExtra($ngnMarkdownExtra);
+  function html($NgnMarkdown) {
+    $markdown = $this->markdownExtra($NgnMarkdown);
     $html = MarkdownExtra::defaultTransform($markdown);
     $html = str_replace('[b]', '<b>', $html);
     $html = str_replace('[/b]', '</b>', $html);
@@ -73,15 +86,17 @@ class NgnMarkdown {
   }
 
   /**
-   * Возвращает текст в формате markdown преобразованный из текстовых блоков
-   * формата {apiPhp ClassName} в API из php-doc блоков
+   * @api
+   * Возвращает текст в формате Markdown, преобразованный из текстовых блоков
+   * вида {apiPhp ClassName} в API из DocBlock комментариев
    *
-   * @param string $ngnMarkdownExtra Текст в формате NgnMarkdownExtra
+   * @param string $NgnMarkdown Текст в формате NgnMarkdown
    * @return string MarkdownExtra
    */
-  protected function markdownApiPhp($ngnMarkdownExtra) {
+  protected function markdownApiPhp($NgnMarkdown) {
     return preg_replace_callback('/{apiPhp (.*)}/', function ($m) {
-      $api = new DocMethodsPhp($m[1]);
+      $class = $m[1];
+      $api = new DocMethodsPhp($class, true, false);
       $s = '';
       foreach ($api as $v) {
         $v['api'] = preg_replace('/^([a-zA-Z_]+)\(/', '__$1__(', $v['api']);
@@ -93,18 +108,19 @@ class NgnMarkdown {
           }
         }
       }
-      return '<div class="api" markdown="1"><div class="help">@api</div>'.$s.'</div>';
-    }, $ngnMarkdownExtra);
+      return (new DocClassPhp($class)). //
+      '<div class="api" markdown="1"><div class="help">@api</div>'.$s.'</div>';
+    }, $NgnMarkdown);
   }
 
   /**
    * Возвращает текст в формате markdown преобразованный из текстовых блоков
    * формата {apiJs Ngn.ClassName} в API
    *
-   * @param string $ngnMarkdownExtra Текст в формате NgnMarkdownExtra
+   * @param string $NgnMarkdown Текст в формате NgnMarkdown
    * @return string Markdown
    */
-  protected function markdownApiJs($ngnMarkdownExtra) {
+  protected function markdownApiJs($NgnMarkdown) {
     return preg_replace_callback('/( *){apiJs (.*)}/', function ($m) {
       $api = new DocBlocksClassJs($m[2]);
       $s = '##'.$api['name'].'##'."\n\n";
@@ -112,17 +128,17 @@ class NgnMarkdown {
       if ($api['arguments']) $s .= $this->renderJsArguments($api['arguments']);
       if ($api['options']) $s .= $this->renderJsOptions($api['options']);
       return $s;
-    }, $ngnMarkdownExtra);
+    }, $NgnMarkdown);
   }
 
   /**
    * Возвращает текст в формате markdown преобразованный из текстовых блоков
    * формата {console ngnCommand} в результат вывода этих команд, преобразованый в HTML
    *
-   * @param string $ngnMarkdownExtra Текст в формате NgnMarkdownExtra
+   * @param string $NgnMarkdown Текст в формате NgnMarkdown
    * @return string Markdown + HTML
    */
-  protected function markdownConsole($ngnMarkdownExtra) {
+  protected function markdownConsole($NgnMarkdown) {
     return preg_replace_callback('/{console (.*)}/', function ($m) {
       if (preg_match('/\|(.*)\|(.*)/', $m[1], $m2)) {
         $text = $m2[1];
@@ -142,17 +158,17 @@ class NgnMarkdown {
   $cmdOutput
 </div>
 HTML;
-    }, $ngnMarkdownExtra);
+    }, $NgnMarkdown);
   }
 
   /**
    * Возвращает текст в формате markdown преобразованный из текстовых блоков
    * формата {class phpClassName} в листинг этого класса
    *
-   * @param string $ngnMarkdownExtra Текст в формате NgnMarkdownExtra
+   * @param string $NgnMarkdown Текст в формате NgnMarkdown
    * @return string Markdown
    */
-  protected function markdownClass($ngnMarkdownExtra) {
+  protected function markdownClass($NgnMarkdown) {
     return preg_replace_callback('/{class (.*)}/', function ($m) {
       if (($path = Lib::getClassPath($m[1])) !== false) {
         $c = file_get_contents($path);
@@ -162,48 +178,47 @@ HTML;
       else {
         return '<p style="color#f00">Class "'.$m[1].'" does not exists</p>';
       }
-    }, $ngnMarkdownExtra);
+    }, $NgnMarkdown);
   }
 
-  protected function markdownClientSide($ngnMarkdownExtra) {
+  protected function markdownClientSide($NgnMarkdown) {
     return preg_replace_callback('/{clientSide (.*)}/', function ($m) {
       return //
         $this->pre(file_get_contents(PROJECT_PATH.'/tpl/js/'.$m[1].'.php')). //
         '<iframe src="/clientSide/'.$m[1].'" style="height:220px;border:0px;"></iframe>';
-    }, $ngnMarkdownExtra);
+    }, $NgnMarkdown);
   }
 
-    protected function markdownMarkers($ngnMarkdownExtra) {
-        $ngnMarkdownExtra = preg_replace('/^\^(.*)$/m', '<p class="important" markdown="1">$1</p>', $ngnMarkdownExtra);
-        $ngnMarkdownExtra = preg_replace('/^\^\^(.*)$/m', '<p class="panel" markdown="1">$1</p>', $ngnMarkdownExtra);
-        return $ngnMarkdownExtra;
-    }
-
+  protected function markdownMarkers($ngnMarkdown) {
+    $ngnMarkdown = preg_replace('/^\^(.*)$/m', '<p class="important" markdown="1">$1</p>', $ngnMarkdown);
+    $ngnMarkdown = preg_replace('/^\^\^(.*)$/m', '<p class="panel" markdown="1">$1</p>', $ngnMarkdown);
+    return $ngnMarkdown;
+  }
 
   /**
    * Возвращает текст в формате markdown преобразованный из текстовых блоков
    * формата {file phpFilePath} в листинг этого файла
    *
-   * @param string $ngnMarkdownExtra Текст в формате NgnMarkdownExtra
+   * @param string $NgnMarkdown Текст в формате NgnMarkdown
    * @return string Markdown
    */
-  protected function markdownFile($ngnMarkdownExtra) {
+  protected function markdownFile($NgnMarkdown) {
     return preg_replace_callback('/{file (.*)}/', function ($m) {
       $c = file_get_contents($m[1]);
       $c = str_replace("<?php\n\n", '', $c);
       $c = $this->pre($c);
       return $c;
-    }, $ngnMarkdownExtra);
+    }, $NgnMarkdown);
   }
 
   /**
    * Возвращает текст в формате markdown преобразованный из текстовых блоков
    * формата {daily-ngn-cst name} в картинку этого ежедневного client-side теста
    *
-   * @param string $ngnMarkdownExtra Текст в формате NgnMarkdownExtra
+   * @param string $NgnMarkdown Текст в формате NgnMarkdown
    * @return string Markdown + HTML
    */
-  protected function markdownDailyNgnCst($ngnMarkdownExtra) {
+  protected function markdownDailyNgnCst($NgnMarkdown) {
     return preg_replace_callback('/{daily-ngn-cst (.*)}/', function ($m) {
       $path = '/m/daily-ngn-cst/'.$m[1];
       $folder = WEBROOT_PATH.'/m/daily-ngn-cst/'.$m[1];
@@ -214,34 +229,34 @@ HTML;
         $s .= '<img src="'.$path.'/'.basename($file).'" style="width:100px">';
       }
       return $s;
-    }, $ngnMarkdownExtra);
+    }, $NgnMarkdown);
   }
 
   /**
    * Возвращает текст в формате markdown преобразованный из текстовых блоков
    * формата {tpl path} в интерпретированый файл шаблона проекта
    *
-   * @param string $ngnMarkdownExtra Текст в формате NgnMarkdownExtra
+   * @param string $NgnMarkdown Текст в формате NgnMarkdown
    * @return string Markdown + HTML
    */
-  protected function markdownTpl($ngnMarkdownExtra) {
+  protected function markdownTpl($NgnMarkdown) {
     return preg_replace_callback('/{tpl (.*)}/', function ($m) {
       ob_start();
       require PROJECT_PATH.'/tpl/'.$m[1].'.php';
       $c = ob_get_contents();
       ob_end_clean();
       return $c;
-    }, $ngnMarkdownExtra);
+    }, $NgnMarkdown);
   }
 
   /**
    * Возвращает текст в формате markdown преобразованный из текстовых блоков
    * формата {phpCode code} в результат eval'а этого кода
    *
-   * @param string $ngnMarkdownExtra Текст в формате NgnMarkdownExtra
+   * @param string $NgnMarkdown Текст в формате NgnMarkdown
    * @return string Markdown + HTML
    */
-  protected function markdownPhpCode($ngnMarkdownExtra) {
+  protected function markdownPhpCode($NgnMarkdown) {
     return preg_replace_callback('/{{phpCode (.*)}}/sm', function ($m) {
       $c = $this->pre($m[1]);
       ob_start();
@@ -249,11 +264,11 @@ HTML;
       $r = ob_get_clean();
       if ($r) $c .= "\n$r";
       return $this->pre($c);
-    }, $ngnMarkdownExtra);
+    }, $NgnMarkdown);
   }
 
-  protected function markdownTag($ngnMarkdownExtra) {
-    return $ngnMarkdownExtra;
+  protected function markdownTag($NgnMarkdown) {
+    return $NgnMarkdown;
   }
 
   protected function pre($c) {
@@ -292,9 +307,9 @@ HTML;
   ];
 
   static $mootoolsClassParents = [
-    'Array' => 'Types',
+    'Array'    => 'Types',
     'Function' => 'Types',
-    'String' => 'Types',
+    'String'   => 'Types',
   ];
 
   protected function renderJsType($type) {
