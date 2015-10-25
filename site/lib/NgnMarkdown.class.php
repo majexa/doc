@@ -114,7 +114,7 @@ class NgnMarkdown {
   }
 
   /**
-   * Возвращает текст в формате markdown преобразованный из текстовых блоков
+   * Возвращает API Motools в формате markdown преобразованный из текстовых блоков
    * формата {apiJs Ngn.ClassName} в API
    *
    * @param string $NgnMarkdown Текст в формате NgnMarkdown
@@ -122,7 +122,7 @@ class NgnMarkdown {
    */
   protected function markdownApiJs($NgnMarkdown) {
     return preg_replace_callback('/( *){apiJs (.*)}/', function ($m) {
-      $api = new DocBlocksClassJs($m[2]);
+      $api = new DocBlockMtClassJs($m[2]);
       $s = '##'.$api['name'].'##'."\n\n";
       $s .= $api['descr']."\n\n";
       if ($api['arguments']) $s .= $this->renderJsArguments($api['arguments']);
@@ -152,8 +152,8 @@ class NgnMarkdown {
       $cmdOutput = Ansi2Html::convert(`$cmd`);
       return <<<HTML
 <div class="console">
-  <div class="help">
-    > <span class="cmd">$text</span>
+  <div class="help" title="Команда, выдающая текст в рамке">
+    <span class="blink">></span> <span class="cmd">$text</span>
   </div>
   $cmdOutput
 </div>

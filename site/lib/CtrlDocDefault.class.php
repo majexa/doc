@@ -26,43 +26,6 @@ class CtrlDocDefault extends CtrlDefault {
     }
   }
 
-  function action_fuck() {
-    // file
-    $c = trim(file_get_contents(PROJECT_PATH.'/faq.yaml'));
-    // parser
-    $c = explode('--', $c);
-    $r = [];
-    foreach ($c as $v) {
-      $v = trim($v);
-      if (!$v) continue;
-      $r[] = explode("\n", $v);
-    }
-    // grouper
-    $grouped = [];
-    foreach ($r as $v) {
-      if (!isset($grouped[$v[2]])) $grouped[$v[2]] = [];
-      $grouped[$v[2]][] = $v;
-    }
-    // renderer
-    $this->d['html'] = '<style>
-h2 {
-margin-bottom: 0px;
-}
-h3 {
-margin-top: 5px;
-margin-bottom: 0px;
-}
-</style>
-';
-    $this->d['html'] .= "<h1>FAQ</h1>\n";
-    foreach ($grouped as $tag => $v) {
-      $this->d['html'] .= "<h2>$tag</h2>\n";
-      foreach ($v as $vv) {
-        $this->d['html'] .= "<h3>{$vv[0]}</h3>\n".(new NgnMarkdown)->html($vv[1]);
-      }
-    }
-  }
-
   function action_cpanel() {
     $css = <<<CSS
 <style>

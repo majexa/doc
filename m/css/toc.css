@@ -9,12 +9,23 @@ margin-left: 20px;
 background: #fff;
 }
 #toc ul {
+color: #ccc;
 padding: 0;
 margin: 0;
 }
 #toc li {
 list-style: none;
+}
+#toc ul ul ul li {
+list-style: square;
+margin-bottom: 0px !important;
+}
+#toc ul ul ul {
+margin-left: 15px;
 margin-bottom: 10px;
+}
+#toc ul ul ul ul {
+margin-top: 7px;
 }
 #toc a, #toc a:hover {
 color: #000;
