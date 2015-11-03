@@ -36,6 +36,11 @@
     O::registerInjection('OrderSend', 'KpOrderSend');
     O::registerInjection('SubclientsFinder', 'KpSubclientsFinder');
 
+##Очистка кэша##
+При включенном `IS_DEBUG` каэ приложения очищается из адресной строки параметром `?cc=1`.
+
+Из консоли командой `php cmd.php cc`.
+
 ##Контроллеры##
 
 - Контроллер — это класс, наследуемый от `CtrlBase` и начинающийся с `Ctrl`
