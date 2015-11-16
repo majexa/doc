@@ -18,7 +18,7 @@
 class DocBlockMtClassJs extends ArrayAccesseble {
 
   function __construct($class) {
-    $c = file_get_contents(Misc::checkEmpty((new SflmJsClassPaths)[$class], 'Mt class "'.$class.'" not found'));
+    $c = file_get_contents((new SflmJsClassPaths)->getAbsPath($class));
     $classRe = str_replace('.', '\\.', $class);
     $this->r['name'] = $class;
     if (preg_match('/(?:\s|^)+\\/\\*\\*(.*)\\*\\/\s+'.$classRe.' = new Class/s', $c, $m)) {
