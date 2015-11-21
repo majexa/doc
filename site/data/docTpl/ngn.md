@@ -811,11 +811,26 @@ __dd-crud для контроллера__ — это функционал поз
 Создать файл конфигурации `config/vars/queue.php` в любом базовом каталоге:
 
     <?php
+    
     return [
       'workers' => 3 // количество воркеров
     ];
 
-Выполнить команду
+Выполнить команду утилиты <a href="/doc/pm">pm</a>
+
+    pm localProject daemons {projectName}
+
+###Как выключить воркер###
+Добавить в массив в файле `config/vars/queue.php` флаг `disable`
+
+    <?php
+    
+    return [
+      'workers' => 3, // количество воркеров
+      'disable => true
+    ];
+
+И выполнить команду утилиты <a href="/doc/pm">pm</a>
 
     pm localProject daemons {projectName}
 
