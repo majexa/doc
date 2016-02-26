@@ -98,7 +98,6 @@ class NgnMarkdown {
       $class = $m[1];
       $api = new DocMethodsPhp($class, true, false);
       $s = '';
-      if ($class == 'Queue') die2($api[0]);
       foreach ($api as $v) {
         $v['api'] = preg_replace('/^([a-zA-Z_]+)\(/', '$1(', $v['api']);
         $v['title'] = str_replace('{this}', ''.$v['class'].'::', $v['title']);
