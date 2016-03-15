@@ -10,7 +10,8 @@ class CtrlDocDefault extends CtrlDefault {
 
   function action_doc() {
     if (empty($this->req->params[1])) {
-      $p = DATA_PATH.'/docTpl/index';
+      $_p = 'index';
+      $p = DATA_PATH.'/docTpl/'.$_p;
     } else {
       $_p = implode('/', array_slice($this->req->params, 1, count($this->req->params)));
       $p = DATA_PATH.'/docTpl/'.$_p;
