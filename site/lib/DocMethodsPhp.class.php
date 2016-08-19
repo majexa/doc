@@ -20,9 +20,8 @@ class DocMethodsPhp extends ArrayAccesseble {
         $methodName = $method->getName();
         if (preg_match('/@api(.*)\n/', $comment, $m)) {
           $comment = preg_replace('/@api(.*)/', '', $comment);
-          $api = trim($m[1]);
         } else {
-          $api = $methodName.'('.implode(', ', $params).')';
+          $comment = '';
         }
         if (in_array($methodName, $methods)) continue;
         $methods[] = $methodName;
@@ -31,7 +30,7 @@ class DocMethodsPhp extends ArrayAccesseble {
           'method' => $methodName,
           'title' => ClassCore::getDocComment($comment),
           //'examples' => ClassCore::getDocComment($comment, 'examples'),
-          'api' => $api,
+          'api' => $methodName.'('.implode(', ', $params).')',
           'params' => ClassCore::getDocComment($comment, 'param')
         ];
         $r[] = $v;

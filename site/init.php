@@ -2,4 +2,4 @@
 
 Lib::addFolder(NGN_ENV_PATH.'/pm/lib');
 Ngn::addBasePath(__DIR__);
-require PROJECT_PATH.'/lib/hyperlight/hyperlight.php';
+require __DIR__.'/lib/hyperlight/hyperlight.php';

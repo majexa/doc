@@ -20,7 +20,11 @@ class DocBlockMtClassJs extends ArrayAccesseble {
   function __construct($class) {
     $c = file_get_contents((new SflmJsClassPaths)->getAbsPath($class));
     $classRe = str_replace('.', '\\.', $class);
-    $this->r['name'] = $class;
+//    $doc = (new NgnJsDoc((new SflmJsClassPaths)->getAbsPath('Ngn.Dialog.Confirm')))->parse();
+//    if (($blocks = $doc->docBlocks())) {
+//      $this->r['title'] = $blocks[0]['header'];
+//    }
+    $this->r['class'] = $class;
     if (preg_match('/(?:\s|^)+\\/\\*\\*(.*)\\*\\/\s+'.$classRe.' = new Class/s', $c, $m)) {
       $this->r['descr'] = trim(preg_replace('/^ \\* ?/m', '', $m[1]));
     }
