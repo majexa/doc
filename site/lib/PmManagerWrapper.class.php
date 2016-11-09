@@ -23,14 +23,10 @@ class PmManagerWrapper extends PmManager {
     return Tt()->getTpl('common/ul', $tree);
   }
 
-  protected function formatTitle($t) {
-    return ucfirst(trim(str_replace('-', ' ', Misc::hyphenate($t))));
-  }
-
   protected function getNode($class) {
     $cmdName = $this->cmdName($class);
     $node = [
-      'title'    => $this->formatTitle($cmdName),
+      'title'    => Misc::nameToTitle($cmdName),
       'data' => [
         'cmdName' => $cmdName
       ],
@@ -38,7 +34,7 @@ class PmManagerWrapper extends PmManager {
     ];
     foreach ($this->getMethods($class) as $method) {
       $node['children'][] = [
-        'title' => $this->formatTitle($method['method']),
+        'title' => Misc::nameToTitle($method['method']),
         'data' => [
           'method' => $method['method']
         ]
@@ -62,7 +58,7 @@ class PmManagerWrapper extends PmManager {
       $method = 'paramOptions_'.$opt['name'];
       $method2 = 'helpOpt_'.$opt['name'];
       $field = [
-        'title' => $this->formatTitle($opt['name']),
+        'title' => Misc::nameToTitle($opt['name']),
         'name' => $opt['name'],
         'required' => true
       ];

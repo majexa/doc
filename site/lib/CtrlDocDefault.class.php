@@ -12,7 +12,8 @@ class CtrlDocDefault extends CtrlDefault {
     if (empty($this->req->params[1])) {
       $_p = 'index';
       $p = DATA_PATH.'/docTpl/'.$_p;
-    } else {
+    }
+    else {
       $_p = implode('/', array_slice($this->req->params, 1, count($this->req->params)));
       $p = DATA_PATH.'/docTpl/'.$_p;
     }
@@ -27,7 +28,8 @@ class CtrlDocDefault extends CtrlDefault {
     }
     elseif (file_exists($p.'.php')) {
       $this->d['html'] = Misc::getIncluded($p.'.php');
-    } else {
+    }
+    else {
       throw new Exception("path $p not found");
     }
   }
@@ -102,7 +104,7 @@ overflow-y: scroll;
 }
 </style>
 CSS;
-$js = <<<JS
+    $js = <<<JS
 <script>
 window.addEvent('domready', function() {
   document.getElement('.menu').getElements('ul li').each(function(eLi) {
@@ -191,9 +193,90 @@ JS;
     $this->d['html'] = Tt()->getTpl('cp/links', $r);
   }
 
-  function action_clientSide() {
+  function action_componentDemo() {
     $this->d['mainTpl'] = 'jsMain';
-    $this->d['tpl'] = 'js/'.$this->req->param(1);
+    $tplPath = ltrim($this->req->path(1), '/');
+    list($jsClass) = explode('/', $tplPath);
+    $dep = new JsCssDependencies($jsClass);
+    $c = '';
+    foreach ($dep->r as $package => $paths) {
+      foreach ($paths as $path) {
+        $c .= $dep->css->getFileContents($dep->css->getAbsPath($path));
+      }
+    }
+    Dir::make(UPLOAD_PATH.'/component/css');
+    file_put_contents(UPLOAD_PATH.'/component/css/'.$jsClass.'.css', $c);
+    $cssPath = '/'.UPLOAD_DIR.'/component/css/'.$jsClass.'.css';
+    // ==============
+    $this->d['html'] = '<link rel="stylesheet" href="'.$cssPath.'" />'."\n\n". //
+      Misc::getIncluded(NGN_ENV_PATH.'/ngn-cst/tpl/js/'.$tplPath.'.php');
+  }
+
+  function action_component() {
+    $csbuildHost = 'csbuild.311.su';
+    $component = $this->req->param(1);
+    $this->setPageTitle("Скачать компонент $component");
+    $r = json_decode(file_get_contents("http://$csbuildHost/json_dependencies/$component"), JSON_FORCE_OBJECT);
+
+    $r['size'] = File::format2($r['size']);
+    $r['compressedSize'] = File::format2($r['compressedSize']);
+
+    // css
+    $css = new SflmCss;
+
+    $ngnJsDependencies = array_map(function ($v) use ($r) {
+      return ltrim($v, '- ');
+    }, explode("\n", trim($r['dependencies']['ngn'])));
+    $paths = [];
+    $paths['common'] = $css->getPaths('common');
+    foreach ($ngnJsDependencies as $_component) {
+      $lib = JsCssDependencies::cssLib($_component);
+      if ($_paths = $css->getPaths($lib)) {
+        $paths[$lib] = $_paths;
+      }
+    }
+
+    $cssPaths = "<h2>CSS</h2>\n";
+    foreach ($paths as $lib => $paths2) {
+      $cssPaths .= '<b><label for="'.$lib.'"><input type="checkbox" id="'.$lib.'" name="component" checked disabled>&nbsp;'.$lib.'</label></b>';
+      $cssPaths .= '<ul>';
+      foreach ($paths2 as $path) {
+        $cssPaths .= "<li>$path</li>";
+      }
+      $cssPaths .= '</ul>';
+    }
+
+    $cssPaths .= '<a href="http://'.$csbuildHost.'/ajax_downloadCss/'.$component.'" class="btn"><span>Скачать&nbsp;собранный</span></a>';
+
+    $this->d['html'] = <<<HTML
+<link rel="stylesheet" type="text/css" href="/i/css/common/btns.css" />
+<style>
+pre {
+font-size:10px;
+}
+</style>
+<h1>Скачать компонент $component</h1>
+<div style="float:left;width:240px;">
+  <h2>MooTools зависимости</h2><pre>{$r['dependencies']['mt']}</pre>
+</div>
+<div style="float:left;width:240px;">
+  <h2>Ngn зависимости</h2><pre>{$r['dependencies']['ngn']}</pre>
+</div>
+<div style="float:left;width:100px;">
+  <h2>Скачать</h2>
+  <p>Оригинал {$r['size']}</p>
+  <p><a href="http://$csbuildHost/ajax_download/$component" class="btn"><span>Скачать</span></a></p>
+  <hr>
+  <p>Сжатый {$r['compressedSize']}</p>
+  <p><a href="http://$csbuildHost/ajax_downloadCompressed/$component" class="btn"><span>Скачать</span></a></p>
+  <h2><a href="/doc/clientSide#$component">API</a></h2>
+</div>
+<div style="clear:both">
+  $cssPaths
+</div>
+
+<div style="clear:both;">&nbsp;</div>
+HTML;
   }
 
 }

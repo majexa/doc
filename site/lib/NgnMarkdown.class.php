@@ -51,7 +51,7 @@ class NgnMarkdown {
     $ngnMarkdown = $this->markdownApiPhp($ngnMarkdown);
     $ngnMarkdown = $this->markdownApiJs($ngnMarkdown);
     $ngnMarkdown = $this->markdownConsole($ngnMarkdown);
-    //$ngnMarkdown = $this->markdownClientSide($ngnMarkdown);
+    $ngnMarkdown = $this->markdownClientSide($ngnMarkdown);
     $ngnMarkdown = $this->markdownMarkers($ngnMarkdown);
     $markdownExtra = $this->markdownDailyNgnCst($ngnMarkdown);
     // now its MarkdownExtra (not NgnMarkdown)
@@ -80,7 +80,7 @@ class NgnMarkdown {
     $html = str_replace('[b]', '<b>', $html);
     $html = str_replace('[/b]', '</b>', $html);
     $html = preg_replace('/<code>\s*SQL:\s*/s', '<code class="sql">', $html);
-    $html = str_replace('    <code>', '<code class="php">', $html);
+    //$html = str_replace('<code>', '<code class="html">', $html);
     $html = str_replace('<table>', '<table cellspacing=0>', $html);
     return $html;
   }
@@ -96,9 +96,14 @@ class NgnMarkdown {
   protected function markdownApiPhp($ngnMarkdown) {
     return preg_replace_callback('/{apiPhp (.*)}/', function ($m) {
       $class = $m[1];
+      $method = null;
+      if (strstr($class, '::')) {
+        list($class, $method) = explode('::', $class);
+      }
       $api = new DocMethodsPhp($class, true, false);
       $s = '';
       foreach ($api as $v) {
+        if ($method and $v['method'] != $method) continue;
         $v['api'] = preg_replace('/^([a-zA-Z_]+)\(/', '$1(', $v['api']);
         $v['title'] = str_replace('{this}', ''.$v['class'].'::', $v['title']);
         $s .= '<pre><code class="php">';
@@ -111,7 +116,8 @@ class NgnMarkdown {
             $s .= "<p><span class=\"varType\">{$param['type']}</span> <b>\${$param['name']}</b>".($param['descr'] ? " — <i>{$param['descr']}</i>" : '')."</p>";
           }
           $s .= '</div>';
-        } else {
+        }
+        else {
           $s .= "<div></div>";
         }
       }
@@ -120,7 +126,7 @@ class NgnMarkdown {
   }
 
   /**
-   * Возвращает API Motools в формате markdown преобразованный из текстовых блоков
+   * Возвращает API Mootools в формате markdown преобразованный из текстовых блоков
    * формата {apiJs Ngn.ClassName} в API
    *
    * @param string $ngnMarkdown Текст в формате NgnMarkdown
@@ -129,7 +135,8 @@ class NgnMarkdown {
   protected function markdownApiJs($ngnMarkdown) {
     return preg_replace_callback('/( *){apiJs (.*)}/', function ($m) {
       $api = new DocBlockMtClassJs($m[2]);
-      $s = '##'.$api['name'].'##'."\n\n";
+      $s = '###'.($api['title'] ? $api['title'].' ('.$api['class'].')' : $api['class']).'###'."\n\n";
+      $s .= '<a href="/component/'.$api['class'].'" target="_blank">Собрать и скачать компонент '.$api['class']."</a>\n\n";
       $s .= $api['descr']."\n\n";
       if ($api['arguments']) $s .= $this->renderJsArguments($api['arguments']);
       if ($api['options']) $s .= $this->renderJsOptions($api['options']);
@@ -188,10 +195,17 @@ HTML;
   }
 
   protected function markdownClientSide($ngnMarkdown) {
-    return preg_replace_callback('/{clientSide (.*)}/', function ($m) {
+    return preg_replace_callback('/{jsDemo (.*)}/', function ($m) {
+      if (preg_match('/(.*) (\d+)/', $m[1], $m2)) {
+        $m[1] = $m2[1];
+        $height = $m2[2];
+      }
+      else {
+        $height = '100';
+      }
       return //
-        $this->pre(file_get_contents(PROJECT_PATH.'/tpl/js/'.$m[1].'.php')). //
-        '<iframe src="/clientSide/'.$m[1].'" style="height:220px;border:0px;"></iframe>';
+        $this->pre(file_get_contents(NGN_ENV_PATH.'/ngn-cst/tpl/js/'.$m[1].'.php')). //
+        '<iframe src="/componentDemo/'.$m[1].'" style="height:'.$height.'px;width:100%;border:0px;"></iframe>';
     }, $ngnMarkdown);
   }
 
@@ -294,10 +308,14 @@ HTML;
   }
 
   protected function renderJsParams(array $r, $title) {
-    $s = "####$title####\n\n";
+    $s = "__{$title}__\n\n";
     foreach ($r as $v) {
       $v['type'] = $this->renderJsType($v['type']);
-      $s .= ' - '.$v['name'].($v['type'] ? ' <span class="gray">('.$v['type'].')</span>' : '').($v['descr'] ? ' — '.$v['descr'] : '')."\n";
+      $s .= ' - '.$v['name']. //
+        ($v['type'] ? ' <span class="gray" title="type">{'.$v['type'].'}</span>' : ''). //
+        (!empty($v['value']) ? (' _<span class="gray">('.$v['value'].')</span>_') : ''). //
+        ($v['descr'] ? ' — '.$v['descr'] : ''). //
+        "\n";
     }
     $s .= "\n";
     return $s;

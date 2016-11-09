@@ -20,9 +20,13 @@ class DocBlockMtClassJs extends ArrayAccesseble {
   function __construct($class) {
     $c = file_get_contents((new SflmJsClassPaths)->getAbsPath($class));
     $classRe = str_replace('.', '\\.', $class);
-    $this->r['name'] = $class;
+//    $doc = (new NgnJsDoc((new SflmJsClassPaths)->getAbsPath('Ngn.Dialog.Confirm')))->parse();
+//    if (($blocks = $doc->docBlocks())) {
+//      $this->r['title'] = $blocks[0]['header'];
+//    }
+    $this->r['class'] = $class;
     if (preg_match('/(?:\s|^)+\\/\\*\\*(.*)\\*\\/\s+'.$classRe.' = new Class/s', $c, $m)) {
-      $this->r['descr'] = trim(preg_replace('/^ \\* ?/m', '', $m[1]));
+      $this->r['descr'] = trim(preg_replace('/^ +\\* ?/m', '', $m[1]));
     }
     if (preg_match('/'.$classRe.' = new Class\\(\\{.*Implements: ([^\n]*)\n/sU', $c, $m)) {
       $this->r['implements'] = explode(', ', trim(trim(trim(trim($m[1]), ','), ']'), '['));
@@ -49,7 +53,7 @@ class DocBlockMtClassJs extends ArrayAccesseble {
         ];
       }
     }
-    if (preg_match('/'.$classRe.' = new Class\\(\\{.*options:\s\\{(.*)\\}/sU', $c, $m)) {
+    if (preg_match('/'.$classRe.' = new Class\\(\\{.*options:\s\\{(.*)\\},/sU', $c, $m)) {
       $m[1] = preg_replace('/^\s*/m', '', $m[1]); // убираем пробелы с начала строк
       $m[1] = trim($m[1]);
       $options = explode("\n", $m[1]);
@@ -66,7 +70,7 @@ class DocBlockMtClassJs extends ArrayAccesseble {
         } else {
           $descr = null;
         }
-        if (!preg_match('/(.*):(.*)/', $option, $m)) continue;
+        if (!preg_match('/(.+): (.+)/', $option, $m)) continue;
         $r[] = [
           'name' => $m[1],
           'value' => trim(trim($m[2]), ','),
