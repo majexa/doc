@@ -1,5 +1,5 @@
 <?php
 
 Lib::addFolder(NGN_ENV_PATH.'/pm/lib');
-Ngn::addBasePath(__DIR__);
+require_once NGN_ENV_PATH.'/ngn-cst/init.php';
 require __DIR__.'/lib/hyperlight/hyperlight.php';

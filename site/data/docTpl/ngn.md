@@ -681,6 +681,25 @@ __db-модель__ - это объект класса `DbModel` (или его 
 
 {apiPhp DbModelCore}
 
+###Экспорт в sql-dump###
+
+    // Выводит все таблицы в базе
+    print (new DbDumper)->getDump();
+    
+    // Одна таблица
+    $dumper = new DbDumper;
+    print $dumper->getDump('table');
+
+    // Только определённые записи в таблице
+    $dumper = new DbDumper;
+    $dumper->cond->addF('id', [1, 5, 8]);
+    print $dumper->getDump('table');
+    
+    // Только записи определённого пользователя, без комментариев в шапке
+    $dumper = new DbDumper(null, ['noHeaders' => true]);
+    $dumper->cond->addF('userId', 5);
+    print $dumper->getDump('table');
+
 ##Система динамических данных (dd-система)##
 
 __Система динамических данных (dd)__ — это система по управлению таблицами и записями базы данных.

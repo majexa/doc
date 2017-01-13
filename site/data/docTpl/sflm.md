@@ -125,9 +125,11 @@ sflm-фронтенд "admin".
 
 ##Подключение зависимостей из JS-файлов##
 
-    @requiresBefore s2/js/common/tpl?name=fontSelect&controller=/font/ajax_browse
+    // @requiresBefore s2/js/common/tpl?name=fontSelect&controller=/font/ajax_browse
+    // @requiresBefore i/some/path, Ngn.Some.Class
+    // @requiresAfter i/js/ngn/comeLib.js
     
-    @requiresAfter i/js/ngn/comeLib.js
+^ Важно использовать однострочные `//` комментарии
 
 ##Отладка отдельных файлов##
 

@@ -116,7 +116,8 @@ class NgnMarkdown {
             $s .= "<p><span class=\"varType\">{$param['type']}</span> <b>\${$param['name']}</b>".($param['descr'] ? " — <i>{$param['descr']}</i>" : '')."</p>";
           }
           $s .= '</div>';
-        } else {
+        }
+        else {
           $s .= "<div></div>";
         }
       }
@@ -135,6 +136,7 @@ class NgnMarkdown {
     return preg_replace_callback('/( *){apiJs (.*)}/', function ($m) {
       $api = new DocBlockMtClassJs($m[2]);
       $s = '###'.($api['title'] ? $api['title'].' ('.$api['class'].')' : $api['class']).'###'."\n\n";
+      $s .= '<a href="/component/'.$api['class'].'" target="_blank">Собрать и скачать компонент '.$api['class']."</a>\n\n";
       $s .= $api['descr']."\n\n";
       if ($api['arguments']) $s .= $this->renderJsArguments($api['arguments']);
       if ($api['options']) $s .= $this->renderJsOptions($api['options']);
@@ -194,9 +196,16 @@ HTML;
 
   protected function markdownClientSide($ngnMarkdown) {
     return preg_replace_callback('/{jsDemo (.*)}/', function ($m) {
+      if (preg_match('/(.*) (\d+)/', $m[1], $m2)) {
+        $m[1] = $m2[1];
+        $height = $m2[2];
+      }
+      else {
+        $height = '100';
+      }
       return //
         $this->pre(file_get_contents(NGN_ENV_PATH.'/ngn-cst/tpl/js/'.$m[1].'.php')). //
-        '<iframe src="/clientSide/'.$m[1].'" style="height:220px;border:0px;"></iframe>';
+        '<iframe src="/componentDemo/'.$m[1].'" style="height:'.$height.'px;width:100%;border:0px;"></iframe>';
     }, $ngnMarkdown);
   }
 
@@ -302,7 +311,11 @@ HTML;
     $s = "__{$title}__\n\n";
     foreach ($r as $v) {
       $v['type'] = $this->renderJsType($v['type']);
-      $s .= ' - '.$v['name'].($v['type'] ? ' <span class="gray">('.$v['type'].')</span>' : '').($v['descr'] ? ' — '.$v['descr'] : '')."\n";
+      $s .= ' - '.$v['name']. //
+        ($v['type'] ? ' <span class="gray" title="type">{'.$v['type'].'}</span>' : ''). //
+        (!empty($v['value']) ? (' _<span class="gray">('.$v['value'].')</span>_') : ''). //
+        ($v['descr'] ? ' — '.$v['descr'] : ''). //
+        "\n";
     }
     $s .= "\n";
     return $s;
