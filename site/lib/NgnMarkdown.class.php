@@ -204,7 +204,7 @@ HTML;
         $height = '100';
       }
       return //
-        $this->pre(file_get_contents(NGN_ENV_PATH.'/ngn-cst/tpl/js/'.$m[1].'.php')). //
+        $this->pre(file_get_contents(NGN_ENV_PATH.'/ngn-cs/tpl/js/'.$m[1].'.php')). //
         '<iframe src="/componentDemo/'.$m[1].'" style="height:'.$height.'px;width:100%;border:0px;"></iframe>';
     }, $ngnMarkdown);
   }
