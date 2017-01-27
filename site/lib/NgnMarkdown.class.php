@@ -129,6 +129,21 @@ class NgnMarkdown {
    * Возвращает API Mootools в формате markdown преобразованный из текстовых блоков
    * формата {apiJs Ngn.ClassName} в API
    *
+   * Пример:
+   *
+   * /**
+   *  * Описание
+   *  * класса
+   *  *\/
+   * var a = new Class({
+   *   options: {
+   *     dialog: null // [null|Ngn.Dialog] Описание опции
+   *   },
+   *   initialize: function(eA) {
+   *     ...
+   *   }
+   * });
+   *
    * @param string $ngnMarkdown Текст в формате NgnMarkdown
    * @return string Markdown
    */
