@@ -209,7 +209,7 @@ JS;
     $cssPath = '/'.UPLOAD_DIR.'/component/css/'.$jsClass.'.css';
     // ==============
     $this->d['html'] = '<link rel="stylesheet" href="'.$cssPath.'" />'."\n\n". //
-      Misc::getIncluded(NGN_ENV_PATH.'/ngn-cst/tpl/js/'.$tplPath.'.php');
+      Misc::getIncluded(NGN_ENV_PATH.'/ngn-cs/tpl/js/'.$tplPath.'.php');
   }
 
   function action_component() {
