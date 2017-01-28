@@ -27,6 +27,30 @@ class DocBlockMtClassJs extends ArrayAccesseble {
     $this->r['class'] = $class;
     if (preg_match('/(?:\s|^)+\\/\\*\\*(.*)\\*\\/\s+'.$classRe.' = new Class/s', $c, $m)) {
       $this->r['descr'] = trim(preg_replace('/^ +\\* ?/m', '', $m[1]));
+
+      if (strstr($this->r['descr'], '@')) {
+        $descrParams = [];
+        $t = explode("\n", $this->r['descr']);
+        $descr = '';
+        foreach ($t as $line) {
+          if (!isset($line[0])) {
+            $descr .= '';
+            continue;
+          }
+          if ($line[0] === '@') {
+            if (!preg_match('/@(\S+)(.*)/', $line, $m2)) die2("error in line {$line}");
+            $descrParams[$m2[1]] = trim($m2[2]);
+          } elseif (isset($m2)) {
+            $descrParams[$m2[1]] .= $line;
+          } else {
+            $descr .= $line."\n";
+          }
+        }
+        if ($descrParams) {
+          $this->r['descr'] = $descr;
+          $this->r['descrParams'] = $descrParams;
+        }
+      }
     }
     if (preg_match('/'.$classRe.' = new Class\\(\\{.*Implements: ([^\n]*)\n/sU', $c, $m)) {
       $this->r['implements'] = explode(', ', trim(trim(trim(trim($m[1]), ','), ']'), '['));

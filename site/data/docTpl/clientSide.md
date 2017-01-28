@@ -67,7 +67,6 @@ JS:
 {apiJs Ngn.Dialog.Auth}
 {apiJs Ngn.Dialog.RequestForm}
 {apiJs Ngn.Dialog.ImageSelect}
-{jsDemo Ngn.Dialog.ImageSelect/default}
 
 ##Грид##
 {apiJs Ngn.Grid}

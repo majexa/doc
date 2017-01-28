@@ -45,6 +45,9 @@ padding: 10px 15px !important;
 border-radius: 3px;
 font-size: 11px;
 }
+iframe {
+border-radius: 3px;
+}
 ul li p {
 margin: 0;
 margin-bottom: 5px;

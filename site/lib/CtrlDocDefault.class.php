@@ -208,8 +208,14 @@ JS;
     file_put_contents(UPLOAD_PATH.'/component/css/'.$jsClass.'.css', $c);
     $cssPath = '/'.UPLOAD_DIR.'/component/css/'.$jsClass.'.css';
     // ==============
-    $this->d['html'] = '<link rel="stylesheet" href="'.$cssPath.'" />'."\n\n". //
-      Misc::getIncluded(NGN_ENV_PATH.'/ngn-cs/tpl/js/'.$tplPath.'.php');
+    $this->d['html'] = '<link rel="stylesheet" href="'.$cssPath.'" />'."\n\n";
+
+    $jsDoc = new DocBlockMtClassJs($jsClass);
+    if (isset($jsDoc['descrParams']['example'])) {
+      $this->d['html'] .= '<script>'.$jsDoc['descrParams']['example'].'</script>';
+    } else {
+      $this->d['html'] .= Misc::getIncluded(DOC_PATH.'/tpl/js/'.$tplPath.'.php');
+    }
   }
 
   function action_component() {

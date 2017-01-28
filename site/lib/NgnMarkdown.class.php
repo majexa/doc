@@ -44,6 +44,7 @@ class NgnMarkdown {
    * @return string Markdown
    */
   function markdownExtra($ngnMarkdown) {
+    $ngnMarkdown = $this->markdownMarkers($ngnMarkdown);
     $ngnMarkdown = $this->markdownFile($ngnMarkdown);
     $ngnMarkdown = $this->markdownTpl($ngnMarkdown);
     $ngnMarkdown = $this->markdownPhpCode($ngnMarkdown);
@@ -51,8 +52,7 @@ class NgnMarkdown {
     $ngnMarkdown = $this->markdownApiPhp($ngnMarkdown);
     $ngnMarkdown = $this->markdownApiJs($ngnMarkdown);
     $ngnMarkdown = $this->markdownConsole($ngnMarkdown);
-    $ngnMarkdown = $this->markdownClientSide($ngnMarkdown);
-    $ngnMarkdown = $this->markdownMarkers($ngnMarkdown);
+    $ngnMarkdown = $this->markdownJsDemo($ngnMarkdown);
     $markdownExtra = $this->markdownDailyNgnCst($ngnMarkdown);
     // now its MarkdownExtra (not NgnMarkdown)
     return $markdownExtra;
@@ -155,6 +155,11 @@ class NgnMarkdown {
       $s .= $api['descr']."\n\n";
       if ($api['arguments']) $s .= $this->renderJsArguments($api['arguments']);
       if ($api['options']) $s .= $this->renderJsOptions($api['options']);
+      if (isset($api['descrParams']['example'])) {
+        $s .= "\n#### Пример\n\n";
+        $s .= $api['descrParams']['example']."\n{jsDemo {$api['class']}}\n";
+      //  $s .= $this->jsDemo($api['class']);
+      }
       return $s;
     }, $ngnMarkdown);
   }
@@ -209,7 +214,7 @@ HTML;
     }, $ngnMarkdown);
   }
 
-  protected function markdownClientSide($ngnMarkdown) {
+  protected function markdownJsDemo($ngnMarkdown) {
     return preg_replace_callback('/{jsDemo (.*)}/', function ($m) {
       if (preg_match('/(.*) (\d+)/', $m[1], $m2)) {
         $m[1] = $m2[1];
@@ -218,10 +223,21 @@ HTML;
       else {
         $height = '100';
       }
+      if (!strstr($m[1], '/')) {
+        $api = new DocBlockMtClassJs($m[1]);
+        if (isset($api['descrParams']['example'])) {
+          return $this->jsDemo($m[1], $height);
+        }
+      }
       return //
-        $this->pre(file_get_contents(NGN_ENV_PATH.'/ngn-cs/tpl/js/'.$m[1].'.php')). //
-        '<iframe src="/componentDemo/'.$m[1].'" style="height:'.$height.'px;width:100%;border:0px;"></iframe>';
+        $this->pre(file_get_contents(DOC_PATH.'/tpl/js/'.$m[1].'.php')). //
+        $this->jsDemo($m[1], $height);
     }, $ngnMarkdown);
+  }
+
+  protected function jsDemo($jsClass, $height) {
+    return //
+      '<iframe src="/componentDemo/'.$jsClass.'" style="height:'.$height.'px;width:100%;border:0px;"></iframe>';
   }
 
   protected function markdownMarkers($ngnMarkdown) {
