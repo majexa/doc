@@ -41,7 +41,7 @@ class DocBlockMtClassJs extends ArrayAccesseble {
             if (!preg_match('/@(\S+)(.*)/', $line, $m2)) die2("error in line {$line}");
             $descrParams[$m2[1]] = trim($m2[2]);
           } elseif (isset($m2)) {
-            $descrParams[$m2[1]] .= $line;
+            $descrParams[$m2[1]] .= $line."\n";
           } else {
             $descr .= $line."\n";
           }
