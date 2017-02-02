@@ -126,8 +126,9 @@ class NgnMarkdown {
   }
 
   /**
+   * @api
    * Возвращает API Mootools в формате markdown преобразованный из текстовых блоков
-   * формата {apiJs Ngn.ClassName} в API
+   * формата &#123;apiJs Ngn.ClassName&#125; в API
    *
    * Пример:
    *

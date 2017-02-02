@@ -219,10 +219,11 @@ JS;
   }
 
   function action_component() {
-    $csbuildHost = 'csbuild.311.su';
+    $csBuildUrl = Config::getSubVar('csBuild', 'url');
+
     $component = $this->req->param(1);
     $this->setPageTitle("Скачать компонент $component");
-    $r = json_decode(file_get_contents("http://$csbuildHost/json_dependencies/$component"), JSON_FORCE_OBJECT);
+    $r = json_decode(file_get_contents("http://$csBuildUrl/json_dependencies/$component"), JSON_FORCE_OBJECT);
 
     $r['size'] = File::format2($r['size']);
     $r['compressedSize'] = File::format2($r['compressedSize']);
@@ -252,7 +253,7 @@ JS;
       $cssPaths .= '</ul>';
     }
 
-    $cssPaths .= '<a href="http://'.$csbuildHost.'/ajax_downloadCss/'.$component.'" class="btn"><span>Скачать&nbsp;собранный</span></a>';
+    $cssPaths .= '<a href="http://'.$csBuildUrl.'/ajax_downloadCss/'.$component.'" class="btn"><span>Скачать&nbsp;собранный</span></a>';
 
     $this->d['html'] = <<<HTML
 <link rel="stylesheet" type="text/css" href="/i/css/common/btns.css" />
@@ -271,10 +272,10 @@ font-size:10px;
 <div style="float:left;width:100px;">
   <h2>Скачать</h2>
   <p>Оригинал {$r['size']}</p>
-  <p><a href="http://$csbuildHost/ajax_download/$component" class="btn"><span>Скачать</span></a></p>
+  <p><a href="http://$csBuildUrl/ajax_download/$component" class="btn"><span>Скачать</span></a></p>
   <hr>
   <p>Сжатый {$r['compressedSize']}</p>
-  <p><a href="http://$csbuildHost/ajax_downloadCompressed/$component" class="btn"><span>Скачать</span></a></p>
+  <p><a href="http://$csBuildUrl/ajax_downloadCompressed/$component" class="btn"><span>Скачать</span></a></p>
   <h2><a href="/doc/clientSide#$component">API</a></h2>
 </div>
 <div style="clear:both">
@@ -283,6 +284,10 @@ font-size:10px;
 
 <div style="clear:both;">&nbsp;</div>
 HTML;
+  }
+
+  function action_test() {
+    new DocBlockMtClassJs('Ngn.Grid');
   }
 
 }

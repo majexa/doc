@@ -77,7 +77,8 @@ class DocBlockMtClassJs extends ArrayAccesseble {
         ];
       }
     }
-    if (preg_match('/'.$classRe.' = new Class\\(\\{.*options:\s\\{(.*)\\},/sU', $c, $m)) {
+    if (preg_match('/'.$classRe.' = new Class\\(\\{.*options:\s\\{(.*)  \\},/sU', $c, $m)) {
+      //die2($m);
       $m[1] = preg_replace('/^\s*/m', '', $m[1]); // убираем пробелы с начала строк
       $m[1] = trim($m[1]);
       $options = explode("\n", $m[1]);
