@@ -36,12 +36,12 @@
     mkdir ~/ngn-env
     mkdir ~/ngn-env/logs
     cd ~/ngn-env
-    git clone git@github.com:majexa/ngn.git
-    git clone git@github.com:majexa/ci.git
-    git clone git@github.com:majexa/issue.git
-    git clone git@github.com:majexa/run.git
-    git clone git@github.com:majexa/sman.git
-    git clone git@github.com:majexa/smon.git
+    git clone https://github.com/majexa/ngn.git
+    git clone https://github.com/majexa/ci.git
+    git clone https://github.com/majexa/issue.git
+    git clone https://github.com/majexa/run.git
+    git clone https://github.com/majexa/sman.git
+    git clone https://github.com/majexa/smon.git
     https://github.com/mootools/mootools-more.git
     https://github.com/mootools/mootools-more.git
     cd ~/ngn-env/ci
