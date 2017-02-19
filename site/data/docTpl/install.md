@@ -20,7 +20,7 @@
     apt-get update
     add-apt-repository --yes ppa:ondrej/php
     apt-get update
-    apt-get -y install php5.6
+    apt-get -y install php5.6 php5.6-mbstring
     apt-get -y install php5.6-curl php5.6-dev php-pear
     pear channel-discover pear.phpunit.de
     pear install phpunit/PHPUnit
