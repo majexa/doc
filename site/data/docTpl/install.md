@@ -42,6 +42,8 @@
     git clone git@github.com:majexa/run.git
     git clone git@github.com:majexa/sman.git
     git clone git@github.com:majexa/smon.git
+    https://github.com/mootools/mootools-more.git
+    https://github.com/mootools/mootools-more.git
     cd ~/ngn-env/ci
     chmod +x ci
     sudo ./ci _updateBin
