@@ -40,8 +40,8 @@
     git clone https://github.com/majexa/ci.git
     git clone https://github.com/majexa/issue.git
     git clone https://github.com/majexa/run.git
-    https://github.com/mootools/mootools-more.git
-    https://github.com/mootools/mootools-more.git
+    git clone https://github.com/mootools/mootools-more.git
+    git clone https://github.com/mootools/mootools-more.git
     cd ~/ngn-env/ci
     chmod +x ci
     sudo ./ci _updateBin
