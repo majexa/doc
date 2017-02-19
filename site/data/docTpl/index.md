@@ -14,14 +14,14 @@ Ngn. The fullstack client-server web-framework
 <!--^ Если у вас ещё нет своего домена, то вы можете воспользоваться [нашим](http://sman.majexa.ru/install-domain.php).-->
 
 ##[Ngn. Server-Side](/doc/ngn.md)##
-##[Ngn. Client-Side](/doc/clientSide)##
+##[Ngn. Client-Side](/doc/clientSide.md)##
 
 ##Утилиты Ngn-env##
 Ngn — это не только серверный фреймворк, но и набор компонентов для разработки, администрирования и тестирования проектов.
 
 В его состав входит набор утилит, помогающих облегчить эти операции:
-###[run](/doc/run), [ci](/doc/ci), [pm](/doc/pm), [tst](/doc/tst), [sman](/doc/sman)###
+###[run](/doc/run.md), [ci](/doc/ci.md), [pm](/doc/pm.md), [tst](/doc/tst.md), [sman](/doc/sman.md)###
 
-##[Деплой](/doc/deploy)##
-##[Документирование](/doc/doc)##
-##[thm4](/doc/thm4)##
+##[Деплой](/doc/deploy.md)##
+##[Документирование](/doc/doc.md)##
+##[thm4](/doc/thm4.md)##

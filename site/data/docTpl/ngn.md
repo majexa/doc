@@ -301,7 +301,7 @@ _Элементы полей формы_ создаются внутри _Фор
 ####CSS элемента поля
 При создании _элемента поля_ для него добавляется CSS файл.
 Он ищется в `Sflm::absBasePaths` путях.
-вместе с ним был добавлен [sflm-фронтенд](/doc/sflm#sflm-фронтенд)
+вместе с ним был добавлен [sflm-фронтенд](/doc/sflm.md#sflm-фронтенд)
 тут: css/formEl/{Type}.css
 
 
@@ -906,7 +906,7 @@ __dd-crud для контроллера__ — это функционал поз
       'workers' => 3 // количество воркеров
     ];
 
-Выполнить команду утилиты <a href="/doc/pm">pm</a>
+Выполнить команду утилиты <a href="/doc/pm.md">pm</a>
 
     pm localProject updateIndex {projectName}
     pm localProject daemons {projectName}
@@ -921,7 +921,7 @@ __dd-crud для контроллера__ — это функционал поз
       'disable => true
     ];
 
-И выполнить команду утилиты <a href="/doc/pm">pm</a>
+И выполнить команду утилиты <a href="/doc/pm.md">pm</a>
 
     pm localProject daemons {projectName}
 
@@ -932,6 +932,6 @@ __dd-crud для контроллера__ — это функционал поз
 
     project/site/config/struct/vars.php
 
-##[CliAccess](/doc/cliAccess)
-##[SFLM](/doc/sflm)
-##[Создание документации и формат NgnMarkdown](/doc/ngnMarkdown)
+##[CliAccess](/doc/cliAccess.md)
+##[SFLM](/doc/sflm.md)
+##[Создание документации и формат NgnMarkdown](/doc/ngnMarkdown.md)
