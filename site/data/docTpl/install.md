@@ -18,9 +18,9 @@
     apt-get -y install python-software-properties software-properties-common
     apt-get install -y language-pack-en-base && export LC_ALL=en_US.UTF-8 && export LANG=en_US.UTF-8
     apt-get update
-    add-apt-repository --yes ppa:ondrej/php5.6
+    add-apt-repository --yes ppa:ondrej/php
     apt-get update
-    apt-get -y install php5-cli
+    apt-get -y install php5.6
     apt-get -y install php5.6-curl php5.6-dev php-pear
     pear channel-discover pear.phpunit.de
     pear install phpunit/PHPUnit
