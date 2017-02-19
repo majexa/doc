@@ -5,8 +5,8 @@ define('PROJECT_PATH', __DIR__.'/site');
 define('WEBROOT_PATH', __DIR__);
 
 require_once NGN_PATH.'/init/core.php';
-$project = Arr::getValueByKey(require dirname(NGN_PATH).'/config/projects.php', 'name', basename(__DIR__));
-define('SITE_DOMAIN', $project['domain'].(isset($project['port']) ? ':'.$project['port'] : ''));
+//$project = Arr::getValueByKey(require dirname(NGN_PATH).'/config/projects.php', 'name', basename(__DIR__));
+//define('SITE_DOMAIN', $project['domain'].(isset($project['port']) ? ':'.$project['port'] : ''));
 
 $quietly = (isset($_SERVER['argv'][2]) and $_SERVER['argv'][2] == 'quietly');
 

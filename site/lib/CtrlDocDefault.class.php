@@ -17,12 +17,12 @@ class CtrlDocDefault extends CtrlDefault {
       $_p = implode('/', array_slice($this->req->params, 1, count($this->req->params)));
       $p = DATA_PATH.'/docTpl/'.$_p;
     }
-    $nmdFile = $p.'.md';
+    $nmdFile = $p;
     if (file_exists($nmdFile)) {
       $this->d['html'] = (new NgnMarkdown)->html(file_get_contents($nmdFile));
-      if (file_exists(DATA_PATH.'/sourceDocs/'.$_p.'.md')) {
+      if (file_exists(DATA_PATH.'/sourceDocs/'.$_p)) {
         $this->d['html'] .= (new NgnMarkdown)->html(file_get_contents( //
-          DATA_PATH.'/sourceDocs/'.$_p.'.md' //
+          DATA_PATH.'/sourceDocs/'.$_p //
         ));
       }
     }

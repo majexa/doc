@@ -13,7 +13,7 @@ Ngn. The fullstack client-server web-framework
 
 <!--^ Если у вас ещё нет своего домена, то вы можете воспользоваться [нашим](http://sman.majexa.ru/install-domain.php).-->
 
-##[Ngn. Server-Side](/doc/ngn)##
+##[Ngn. Server-Side](/doc/ngn.md)##
 ##[Ngn. Client-Side](/doc/clientSide)##
 
 ##Утилиты Ngn-env##
