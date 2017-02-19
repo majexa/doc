@@ -21,6 +21,8 @@
     add-apt-repository --yes ppa:ondrej/php
     apt-get update
     apt-get -y install php5.6 php5.6-mbstring
+    sed -i "s/^\s*#.*$//g" nginx.conf
+    sed -i "s/short_open_tag = Off/short_open_tag = On/g" /etc/php/5.6/cli/php.ini
     apt-get -y install php5.6-curl php5.6-dev
     apt-get -y install memcached php5.6-memcached php5.6-fpm
     sed -i "s|www-data|user|g" /etc/php5/fpm/pool.d/www.conf
