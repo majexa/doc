@@ -1,8 +1,8 @@
     # Ngn-env installation script for server type 'projects':
     apt-get update
     apt-get -y install mc git-core
-    useradd -m -s /bin/bash -p `openssl passwd -1 qz3AxkE` user
-    echo -n 'qz3AxkE' > /home/user/.pass
+    useradd -m -s /bin/bash -p `openssl passwd -1 H07VcrL` user
+    echo -n 'H07VcrL' > /home/user/.pass
     apt-get -y install sudo
     echo '%user ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
     apt-get -y install nginx
