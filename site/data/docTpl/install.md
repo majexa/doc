@@ -40,7 +40,7 @@
     git clone https://github.com/majexa/ci.git
     git clone https://github.com/majexa/issue.git
     git clone https://github.com/majexa/run.git
-    git clone https://github.com/mootools/mootools-more.git
+    git clone https://github.com/mootools/mootools-core.git
     git clone https://github.com/mootools/mootools-more.git
     cd ~/ngn-env/ci
     chmod +x ci
