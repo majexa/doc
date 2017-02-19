@@ -21,7 +21,7 @@
     add-apt-repository --yes ppa:ondrej/php
     apt-get update
     apt-get -y install php5.6 php5.6-mbstring
-    apt-get -y install php5.6-curl php5.6-dev php-pear
+    apt-get -y install php5.6-curl php5.6-dev
     apt-get -y install memcached php5.6-memcached php5.6-fpm
     sed -i "s|www-data|user|g" /etc/php5/fpm/pool.d/www.conf
     /etc/init.d/php5-fpm restart
