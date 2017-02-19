@@ -40,8 +40,6 @@
     git clone https://github.com/majexa/ci.git
     git clone https://github.com/majexa/issue.git
     git clone https://github.com/majexa/run.git
-    git clone https://github.com/majexa/sman.git
-    git clone https://github.com/majexa/smon.git
     https://github.com/mootools/mootools-more.git
     https://github.com/mootools/mootools-more.git
     cd ~/ngn-env/ci
