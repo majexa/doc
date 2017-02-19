@@ -5,6 +5,7 @@
     echo -n 'CHANGE_IT' > /home/user/.pass
     apt-get -y install sudo
     echo '%user ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
+    apt-get purge apache2
     apt-get -y install nginx
     cd /etc/nginx
     sed -i "s/^\s*#.*$//g" nginx.conf
