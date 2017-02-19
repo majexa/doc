@@ -38,6 +38,7 @@
     cd ~/ngn-env
     git clone -b dev git@github.com:majexa/ngn.git
     git clone git@github.com:majexa/ci.git
+    git clone git@github.com:majexa/issue.git
     git clone git@github.com:majexa/run.git
     git clone git@github.com:majexa/sman.git
     git clone git@github.com:majexa/smon.git
