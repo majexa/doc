@@ -10,7 +10,7 @@ class CtrlDocDefault extends CtrlDefault {
 
   function action_doc() {
     if (empty($this->req->params[1])) {
-      $_p = 'index';
+      $_p = 'index.md';
       $p = DATA_PATH.'/docTpl/'.$_p;
     }
     else {
@@ -27,7 +27,7 @@ class CtrlDocDefault extends CtrlDefault {
       }
     }
     elseif (file_exists($p.'.php')) {
-      $this->d['html'] = Misc::getIncluded($p.'.php');
+      $this->d['html'] = Misc::getIncluded($p.'.md');
     }
     else {
       throw new Exception("path $p not found");

@@ -107,7 +107,7 @@ die2(new DocMethodsPhp('St', false));
   <?
   f('
 print_r((new Pagination([
-  ##db## => new DemoDb
+  ##sql## => new DemoDb
 ]))->get(##dd_i_portfolio##));
 ');
   ?>
